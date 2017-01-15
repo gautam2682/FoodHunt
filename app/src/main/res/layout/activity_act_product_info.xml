@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:id="@+id/coordinator_product_info"
+    tools:context="com.example.gautam.foodhunt.ActProductInfo">
+
+
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:id="@+id/app_bar_product"
+        app:elevation="14dp"
+        android:theme="@style/AppTheme.AppBarOverlay2">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:statusBarScrim="@android:color/transparent"
+            android:fitsSystemWindows="true">
+
+            <ImageView
+                android:layout_marginTop="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:id="@+id/act_image"
+                />
+
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_collapseMode="pin" />
+
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+       <android.support.v4.widget.NestedScrollView android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+    <include layout="@layout/content_act_product_info" />
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <android.support.v7.widget.AppCompatButton
+        android:background="@color/green"
+        android:textColor="@color/white_50"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center"
+        android:text="Add to cart"
+        android:padding="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="-10dip"
+        android:layout_marginTop="-5dip"
+        android:layout_marginBottom="-5dip"
+        android:id="@+id/btncart"
+        />
+    <android.support.v7.widget.AppCompatButton
+        android:textColor="@color/white_50"
+        android:background="@color/colorAccent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="56dp"
+        android:layout_gravity="center"
+        android:text="Order"
+        android:padding="0dp"
+        android:layout_marginRight="-10dip"
+        android:layout_marginTop="-5dip"
+        android:layout_marginBottom="-5dip"
+        android:id="@+id/btngorder"
+        />
+
+    </LinearLayout>
+
+
+
+</android.support.design.widget.CoordinatorLayout>
+
+
