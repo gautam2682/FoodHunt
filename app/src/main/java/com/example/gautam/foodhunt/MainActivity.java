@@ -3,18 +3,13 @@ package com.example.gautam.foodhunt;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.MenuCompat;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -25,30 +20,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.ExpandableListView;
 
-import com.example.gautam.foodhunt.Adapter.CartAdapter;
-import com.example.gautam.foodhunt.Adapter.DataAdapter;
-import com.example.gautam.foodhunt.Modal.ProductResponse;
-import com.example.gautam.foodhunt.Modal.ProductVersion;
-import com.example.gautam.foodhunt.Modal.ServerRequest;
-import com.example.gautam.foodhunt.Modal.User;
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     SearchView searchView;
     public CoordinatorLayout coordinatorLayout;
+    private DrawerLayout mDrawerLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +62,6 @@ public class MainActivity extends AppCompatActivity
 
         //initialize fragment
         initMain_frag();
-
 
 
     }
@@ -115,6 +98,25 @@ public class MainActivity extends AppCompatActivity
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
+        TapTargetView.showFor(this,                 // `this` is an Activity
+                TapTarget.forView(findViewById(R.id.fab), "This is a your orders", "We have the best targets, believe me")
+                        // All options below are optional
+                        .outerCircleColor(R.color.green)      // Specify a color for the outer circle
+                        .targetCircleColor(R.color.white)   // Specify a color for the target circle
+                        .titleTextSize(20)                  // Specify the size (in sp) of the title text
+                        .titleTextColor(R.color.white)      // Specify the color of the title text
+                        .descriptionTextSize(10)            // Specify the size (in sp) of the description text
+                        .descriptionTextColor(R.color.white)  // Specify the color of the description text
+                        .textColor(R.color.white)            // Specify a color for both the title and description text
+                        .textTypeface(Typeface.SANS_SERIF)  // Specify a typeface for the text
+                        .dimColor(R.color.light_blue500)            // If set, will dim behind the view with 30% opacity of the given color
+                        .drawShadow(true)                   // Whether to draw a drop shadow or not
+                        .cancelable(false)                  // Whether tapping outside the outer circle dismisses the view
+                        .tintTarget(true)                   // Whether to tint the target view's color
+                        .transparentTarget(false)           // Specify whether the target is transparent (displays the content underneath)
+                        // Specify a custom drawable to draw as the target
+                        .targetRadius(60)                  // Specify the target radius (in dp)
+        );
        /* searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -132,6 +134,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 */
+
 
         return true;
 
@@ -219,4 +222,6 @@ public class MainActivity extends AppCompatActivity
         return coordinatorLayout;
 
     }
+
+
 }

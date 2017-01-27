@@ -10,7 +10,7 @@
             android:id="@+id/veg"
             android:icon="@drawable/ic_menu_camera"
             android:title="Vegetarian" >
-            
+
         </item>
         <item
             android:id="@+id/non_veg"
@@ -36,6 +36,16 @@
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
                 android:title="Send" />
+        </menu>
+    </item>
+    <item android:title="Settings" android:id="@+id/setting_parent_item">
+        <menu android:id="@+id/setting_menu">
+            <group android:checkableBehavior="single" android:id="@+id/setting_group">
+                <item
+                    android:id="@+id/item_log_out"
+                    android:title="Log Out" />
+
+            </group>
         </menu>
     </item>
 
