@@ -3,6 +3,8 @@ package com.example.gautam.foodhunt;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -21,9 +24,16 @@ import android.widget.Toast;
 import com.example.gautam.foodhunt.Adapter.PopularAdapter;
 import com.example.gautam.foodhunt.Modal.ProductResponse;
 import com.example.gautam.foodhunt.Modal.ProductVersion;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -62,6 +72,19 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
     LinearLayout linearLayout;
     OkHttpClient client;
     static Context context;
+    CarouselView carouselView;
+    int NUMBER_OF_PAGES = 5;
+    int[] sampleImages = {R.drawable.burger, R.drawable.fruit};
+    String[] sampleTitles = {"Orange", "Grapes", "Strawberry", "Cherry", "Apricot"};
+
+    String[] sampleNetworkImageURLs = {
+            "http://www.buildupcareer.com/gauti/Hunt/Burger.jpg",
+            "http://www.buildupcareer.com/gauti/Hunt/pizza.jpg",
+            "http://www.buildupcareer.com/gauti/Hunt/Food.jpg",
+            "http://www.buildupcareer.com/gauti/Hunt/Food.jpg",
+            "http://www.buildupcareer.com/gauti/Hunt/Burger.jpg"
+
+    };
 
     @Nullable
     @Override
@@ -70,16 +93,14 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
         mainActivity = new MainActivity();
         getActivity().setTitle(getTimeFromAndroid());
         initView(view);
-        OkCacheit();
-        //  loadfragjson(view );
-
         loadrxjava(view);
+        loadcarousel(view);
         return view;
     }
 
 
     private void initView(View v) {
-         context=getActivity().getApplicationContext();
+        context = getActivity().getApplicationContext();
         linearLayout = (LinearLayout) v.findViewById(R.id.linearalayout_main);
         linearLayout.setVisibility(View.INVISIBLE);
         linearlayot = (FrameLayout) v.findViewById(R.id.pop_linear);
@@ -95,77 +116,28 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
         recyclerview.setLayoutManager(linearmanager);
 
 
-    }
-
-    private void loadfragjson(final View view) {
-        progressbar.setVisibility(View.VISIBLE);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.base_url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build();
-        RequestInterface requestInterface = retrofit.create(RequestInterface.class);
-        Call<ProductResponse> call = requestInterface.getProducts();
-        call.enqueue(new Callback<ProductResponse>() {
-            @Override
-            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
-                initView(view);
-                progressbar.setVisibility(View.INVISIBLE);
-                linearLayout.setVisibility(View.VISIBLE);
-                ProductResponse productResponse = response.body();
-                products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
-                popularAdapter = new PopularAdapter(products, getActivity());
-                recyclerview.setAdapter(popularAdapter);
-                Snackbar.make(linearlayot, "items successfully loaded", Snackbar.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void onFailure(Call<ProductResponse> call, Throwable t) {
-                progressbar.setVisibility(View.INVISIBLE);
-                ShowFailsnackbar();
-
-
-            }
-        });
-
-        Call<ProductResponse> call2 = requestInterface.getProducts();
-        call2.enqueue(new Callback<ProductResponse>() {
-            @Override
-            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
-                initTopView(view, R.id.recycler_top);
-                ProductResponse productResponse = response.body();
-                products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
-                popularAdapter = new PopularAdapter(products, getActivity());
-                recyclerview.setAdapter(popularAdapter);
-                Snackbar.make(linearlayot, "items successfully loaded again", Snackbar.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<ProductResponse> call, Throwable t) {
-                ShowFailsnackbar();
-
-            }
-        });
-        call.clone().enqueue(new Callback<ProductResponse>() {
-            @Override
-            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
-                initTopView(view, R.id.recycler_trending);
-                ProductResponse productResponse = response.body();
-                products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
-                popularAdapter = new PopularAdapter(products, getActivity());
-                recyclerview.setAdapter(popularAdapter);
-                Snackbar.make(linearlayot, "items successfully loaded third call", Snackbar.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<ProductResponse> call, Throwable t) {
-                ShowFailsnackbar();
-
-            }
-        });
 
     }
+
+    private void loadcarousel(View v) {
+
+        carouselView = (CarouselView) v.findViewById(R.id.carouselView);
+        carouselView.setPageCount(NUMBER_OF_PAGES);
+        carouselView.setImageListener(imageListener);
+
+    }
+    ImageListener imageListener= new ImageListener() {
+        @Override
+        public void setImageForPosition(int position, ImageView imageView) {
+
+            // imageView.setImageResource(sampleImages[position]);
+
+            Picasso.with(getActivity()).load(sampleNetworkImageURLs[position]).placeholder(sampleImages[0]).fit().centerCrop().into(imageView);
+        }
+    };
+
+
+
 
     private void ShowFailsnackbar() {
         Snackbar.make(linearlayot, "Connection problem", Snackbar.LENGTH_INDEFINITE)
@@ -197,7 +169,6 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
     public void onRefresh() {
 
         View view = getView();
-        loadfragjson(view);
         swipeRefreshLayout.setRefreshing(false);
 
 
@@ -257,6 +228,8 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
                                 products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
                                 popularAdapter = new PopularAdapter(products, getActivity());
                                 recyclerview.setAdapter(popularAdapter);
+
+
                                 Snackbar.make(linearlayot, "items successfully loaded", Snackbar.LENGTH_SHORT).show();
                             }
                             if (i == 1) {
@@ -271,6 +244,8 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
                                 products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
                                 popularAdapter = new PopularAdapter(products, getActivity());
                                 recyclerview.setAdapter(popularAdapter);
+
+
                                 Snackbar.make(linearlayot, "items successfully loaded third call", Snackbar.LENGTH_SHORT).show();
                             }
                         }
@@ -279,39 +254,5 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
 
                 });
     }
-
-    public void OkCacheit() {
-        int cacheSize = 10 * 1024 * 1024; // 10 MiB
-        Cache cache = new Cache(new File(getActivity().getApplication().getCacheDir(),"okhttp"), cacheSize);
-
-        HttpLoggingInterceptor httpLoggingInterceptor=new HttpLoggingInterceptor();
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-           client=new OkHttpClient.Builder()
-                   .cache(cache)
-                   .addNetworkInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
-                   .build();
-
-    }
-    private static final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
-        @Override
-        public okhttp3.Response intercept(Chain chain) throws IOException {
-            okhttp3.Response originalResponse = chain.proceed(chain.request());
-            if (Utils.isNetworkAvailable(context)) {
-                int maxAge = 60; // read from cache for 1 minute
-                return originalResponse.newBuilder()
-                        .header("Cache-Control", "public, max-age=" + maxAge)
-                        .build();
-            }else {
-                int maxStale = 60 * 60 * 24 * 28; // tolerate 4-weeks stale
-                return originalResponse.newBuilder()
-                        .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
-                        .build();
-            }
-
-        }
-    };
-
-
-
 
 }
