@@ -6,6 +6,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">#ffffff</item>
+        <item name="colorControlActivated">#ffffff</item>
+        <item name="colorControlHighlight">#ffffff</item>
+
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -29,6 +33,9 @@
     <style name="BrandButtonStyle" parent="Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">@color/green</item>
         <item name="android:textColor">@color/white_50</item>
+    </style>
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/background_splash</item>
     </style>
 
 </resources>

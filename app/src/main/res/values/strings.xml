@@ -9,6 +9,7 @@
     <string name="title_activity_act_cart">Act_cart</string>
     <string name="title_activity_cart">Activity_cart</string>
     <string name="searc_foodhunt">Search foodHunt</string>
+    <string name="loading">Logging in..</string>
 
 
 

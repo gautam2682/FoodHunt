@@ -116,7 +116,6 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
         recyclerview.setLayoutManager(linearmanager);
 
 
-
     }
 
     private void loadcarousel(View v) {
@@ -125,18 +124,18 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
         carouselView.setPageCount(NUMBER_OF_PAGES);
         carouselView.setImageListener(imageListener);
 
+
     }
-    ImageListener imageListener= new ImageListener() {
+
+    ImageListener imageListener = new ImageListener() {
         @Override
         public void setImageForPosition(int position, ImageView imageView) {
 
             // imageView.setImageResource(sampleImages[position]);
+            Picasso.with(getActivity()).load(sampleNetworkImageURLs[position]).fit().centerCrop().into(imageView);
 
-            Picasso.with(getActivity()).load(sampleNetworkImageURLs[position]).placeholder(sampleImages[0]).fit().centerCrop().into(imageView);
         }
     };
-
-
 
 
     private void ShowFailsnackbar() {
@@ -181,7 +180,6 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
         Calendar c = Calendar.getInstance();
         c.setTime(dt);
         int hours = c.get(Calendar.HOUR_OF_DAY);
-        int min = c.get(Calendar.MINUTE);
 
 
         if (hours >= 0 && hours <= 12) {
@@ -210,7 +208,8 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
                 .subscribe(new Subscriber<ProductResponse>() {
                     @Override
                     public void onCompleted() {
-                        Toast.makeText(getActivity(), "Rx completed", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity(), "Rx completed", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -254,5 +253,41 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
 
                 });
     }
+    /*private void loadcarouseljava(final View view) {
+        progressbar.setVisibility(View.VISIBLE);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.base_url)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        RequestInterface rxinterface = retrofit.create(RequestInterface.class);
+         Call<ProductResponse> productResponseCall=rxinterface.getProducts();
+        productResponseCall.enqueue(new Callback<ProductResponse>() {
+            @Override
+            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+                Toast.makeText(getActivity(),"Hello",Toast.LENGTH_SHORT).show();
+
+                progressbar.setVisibility(View.INVISIBLE);
+                ProductResponse productResponse =response.body();
+                products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
+                sampleNetworkImageURLs=new ArrayList<String>();
+                sampleNetworkImageURLs.add( products.get(0).getP_image());
+                sampleNetworkImageURLs.add(products.get(1).getP_image());
+                sampleNetworkImageURLs.add( products.get(0).getP_image());
+                sampleNetworkImageURLs.add(products.get(1).getP_image());
+                sampleNetworkImageURLs.add( products.get(0).getP_image());
+                Log.d("Tdthfh",products.get(1).getP_image());
+                Toast.makeText(getActivity(),products.get(0).getP_image(),Toast.LENGTH_SHORT).show();
+              //  loadcarousel(view);
+
+            }
+
+            @Override
+            public void onFailure(Call<ProductResponse> call, Throwable t) {
+
+
+            }
+        });
+        */
+
 
 }

@@ -328,16 +328,16 @@ public class ActProductInfo extends AppCompatActivity {
         request.setOperation(Constants.loadcomment);
         request.setUser(user);
         UserResInterface requestInterface=retrofit.create(UserResInterface.class);
-        Call<UserResponse> response=requestInterface.operation(request);
-        response.enqueue(new Callback<UserResponse>() {
+        Call<ServerResponse> response=requestInterface.operation(request);
+        response.enqueue(new Callback<ServerResponse>() {
             @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                loadcommentresponse( response);
+            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                loadcommentresponse(response);
 
             }
 
             @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
+            public void onFailure(Call<ServerResponse> call, Throwable t) {
                 SnackbarFailed();
 
             }
@@ -346,8 +346,8 @@ public class ActProductInfo extends AppCompatActivity {
 
     }
 
-    private void loadcommentresponse(Response<UserResponse> response) {
-        UserResponse productResponse = response.body();
+    private void loadcommentresponse(Response<ServerResponse> response) {
+        ServerResponse productResponse = response.body();
         if (productResponse.getResult().equals("Failure")) {
         } else {
             initRecycler(R.id.comment_recycler);
@@ -417,10 +417,10 @@ public class ActProductInfo extends AppCompatActivity {
                     request.setOperation(Constants.addcomment);
                     request.setUser(user);
                     UserResInterface requestInterface = retrofit.create(UserResInterface.class);
-                    Call<UserResponse> response = requestInterface.operation(request);
-                    response.enqueue(new Callback<UserResponse>() {
+                    Call<ServerResponse> response = requestInterface.operation(request);
+                    response.enqueue(new Callback<ServerResponse>() {
                         @Override
-                        public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                        public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                             progressDialog.dismiss();
                             Snackbar.make(coordinatorLayout, "Successfully added ", Snackbar.LENGTH_SHORT).show();
                             add_comment.setText("");
@@ -429,7 +429,7 @@ public class ActProductInfo extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onFailure(Call<UserResponse> call, Throwable t) {
+                        public void onFailure(Call<ServerResponse> call, Throwable t) {
                             progressDialog.dismiss();
                             //SnackbarFailed();
 
@@ -460,10 +460,10 @@ public class ActProductInfo extends AppCompatActivity {
             request.setOperation(Constants.editComment);
             request.setUser(user);
             UserResInterface requestInterface = retrofit.create(UserResInterface.class);
-            Call<UserResponse> response = requestInterface.operation(request);
-            response.enqueue(new Callback<UserResponse>() {
+            Call<ServerResponse> response = requestInterface.operation(request);
+            response.enqueue(new Callback<ServerResponse>() {
                 @Override
-                public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                     progressDialog.dismiss();
                     Snackbar.make(coordinatorLayout, "Successfully edited ", Snackbar.LENGTH_SHORT).show();
                     loadcommentresponse(response);
@@ -471,7 +471,7 @@ public class ActProductInfo extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<UserResponse> call, Throwable t) {
+                public void onFailure(Call<ServerResponse> call, Throwable t) {
                     progressDialog.dismiss();
                     //SnackbarFailed();
 
@@ -497,10 +497,10 @@ public class ActProductInfo extends AppCompatActivity {
         request.setOperation(Constants.deletecomment);
         request.setUser(user);
         UserResInterface requestInterface = retrofit.create(UserResInterface.class);
-        Call<UserResponse> response = requestInterface.operation(request);
-        response.enqueue(new Callback<UserResponse>() {
+        Call<ServerResponse> response = requestInterface.operation(request);
+        response.enqueue(new Callback<ServerResponse>() {
             @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 progressDialog.dismiss();
                 Snackbar.make(coordinatorLayout, "Successfully deleted ", Snackbar.LENGTH_SHORT).show();
                 loadcommentresponse(response);
@@ -508,7 +508,7 @@ public class ActProductInfo extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
+            public void onFailure(Call<ServerResponse> call, Throwable t) {
                 progressDialog.dismiss();
                 //SnackbarFailed();
 

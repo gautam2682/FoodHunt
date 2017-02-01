@@ -18,4 +18,11 @@ public class Constants {
     public static final String deletecomment="deletecomment";
     public static final String ordercart="ordercart";
     public static final String getfromcategory="getfromcategory";
+    public static final String loginoperation="login";
+    public static final String SUCCESS="success";
+    public static final String EMAIL = "email";
+
+    public static final String VERIFYOTP_OPERATION="verifyOtp";
+    public static final String RESENDOTP_OPERATION="resendOtp";
+
 }

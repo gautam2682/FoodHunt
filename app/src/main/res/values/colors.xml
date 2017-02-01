@@ -26,5 +26,8 @@
     <color name="grey">#B0BEC5</color>
     <color name="purple">#B39DDB</color>
     <color name="pink">#F48FB1</color>
+    <color name="group_divider_color">#9E9E9E</color>
+    <color name="list_group_title">#808080</color>
+    <color name="list_item_title">#AAAAAA</color>
 
 </resources>

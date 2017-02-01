@@ -49,14 +49,16 @@
     </android.support.design.widget.CoordinatorLayout>
 
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
+    <ExpandableListView
+        android:id="@+id/expanablelistView"
+        android:layout_width="280dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        android:layout_gravity="left|start"
+        android:dividerHeight="0.7dp"
+        android:background="@color/white"
+        android:divider="@color/group_divider_color"
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+        />
 
 </android.support.v4.widget.DrawerLayout>
 
