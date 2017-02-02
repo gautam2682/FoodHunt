@@ -13,7 +13,7 @@ public class Constants {
     public static final String search="search";
     public  static final String loadcomment="loadcomment";
     public static final String addcomment="addcomment";
-    public static final String email="7827789246";
+
     public static final String editComment="editcomment";
     public static final String deletecomment="deletecomment";
     public static final String ordercart="ordercart";

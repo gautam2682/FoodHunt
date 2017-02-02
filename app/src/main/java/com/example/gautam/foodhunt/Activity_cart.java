@@ -1,6 +1,8 @@
 package com.example.gautam.foodhunt;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -36,6 +38,7 @@ public class Activity_cart extends AppCompatActivity {
     ArrayList<ProductVersion> products;
     CartAdapter cartAdapter;
     Toolbar ordertoolbar;  Button btnorder;CoordinatorLayout coordinatorLayout;ArrayList<String> idsA,noiA;
+    SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,7 @@ public class Activity_cart extends AppCompatActivity {
 
 
     private void initView() {
+        pref=getApplicationContext().getSharedPreferences("ABC", Context.MODE_PRIVATE);
         btnorder=(Button)findViewById(R.id.order_btn);
         coordinatorLayout=(CoordinatorLayout)findViewById(R.id.coordinator_cart);
         recyclerview= (RecyclerView) findViewById(R.id.recycler_view_cart);
@@ -74,7 +78,7 @@ public class Activity_cart extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         User user =new User();
-        user.setEmail("7827789246");
+        user.setEmail(pref.getString(Constants.EMAIL," "));
 
         final ServerRequest request=new ServerRequest();
         request.setOperation(Constants.showcart);
@@ -143,7 +147,7 @@ public class Activity_cart extends AppCompatActivity {
                                 .addConverterFactory(GsonConverterFactory.create())
                                 .build();
                         User user = new User();
-                        user.setEmail(Constants.email);
+                        user.setEmail(pref.getString(Constants.EMAIL," "));
                         user.setP_id(idsA.get(i));
                         user.setNoi(noiA.get(i));
                         final ServerRequest request = new ServerRequest();

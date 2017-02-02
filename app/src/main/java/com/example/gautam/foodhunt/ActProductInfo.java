@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -82,6 +83,7 @@ public class ActProductInfo extends AppCompatActivity {
     CollapsingToolbarLayout collapsingToolbarLayout;Palette palette;
     RecyclerView recyclerview;DataAdapter dataAdapter;CommentAdapter commentAdapter;SearchView searchView;
     MaterialDialog progressbar;OkHttpClient client;Context actcontext;
+    SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +115,7 @@ public class ActProductInfo extends AppCompatActivity {
 
 
     private void initView() {
+        pref=getApplicationContext().getSharedPreferences("ABC",Context.MODE_PRIVATE);
          actcontext=getApplicationContext();
         OkCacheit();
         act_product=(LinearLayout)findViewById(R.id.content_act_product_info);
@@ -220,7 +223,7 @@ public class ActProductInfo extends AppCompatActivity {
                         .build();
                 User user =new User();
                 user.setP_id(p_id);
-                 user.setEmail("7827789246");
+                 user.setEmail(pref.getString(Constants.EMAIL,""));
                 user.setNoi("1");
                 final ServerRequest request=new ServerRequest();
                 request.setOperation(Constants.addtocart);
@@ -280,7 +283,7 @@ public class ActProductInfo extends AppCompatActivity {
                 .build();
         User user =new User();
         user.setP_id(p_id);
-        user.setEmail("7827789246");
+        user.setEmail(pref.getString(Constants.EMAIL," "));
         final ServerRequest request=new ServerRequest();
         RequestInterface requestInterface=retrofit.create(RequestInterface.class);
         Call<ProductResponse> response=requestInterface.getProducts();
@@ -323,7 +326,7 @@ public class ActProductInfo extends AppCompatActivity {
                 .build();
         final User user =new User();
         user.setP_id(p_id);
-        user.setEmail("7827789246");
+        user.setEmail(pref.getString(Constants.EMAIL," "));
         final ServerRequest request=new ServerRequest();
         request.setOperation(Constants.loadcomment);
         request.setUser(user);
@@ -412,7 +415,7 @@ public class ActProductInfo extends AppCompatActivity {
                     User user = new User();
                     user.setP_id(p_id);
                     user.setComment(add_comment.getText().toString());
-                    user.setEmail(Constants.email);
+                    user.setEmail(pref.getString(Constants.EMAIL," "));
                     final ServerRequest request = new ServerRequest();
                     request.setOperation(Constants.addcomment);
                     request.setUser(user);
@@ -453,7 +456,7 @@ public class ActProductInfo extends AppCompatActivity {
             User user = new User();
             user.setP_id(p_id);
             user.setComment(add_comment.getText().toString());
-            user.setEmail(Constants.email);
+            user.setEmail(pref.getString(Constants.EMAIL," "));
             user.setComment_id(comment.get(pos).getComment_id());
             user.setComment(comm);
             final ServerRequest request = new ServerRequest();
@@ -491,7 +494,7 @@ public class ActProductInfo extends AppCompatActivity {
         User user = new User();
         user.setP_id(p_id);
         user.setComment(add_comment.getText().toString());
-        user.setEmail(Constants.email);
+        user.setEmail(pref.getString(Constants.EMAIL," "));
         user.setComment_id(comment.get(pos).getComment_id());
         final ServerRequest request = new ServerRequest();
         request.setOperation(Constants.deletecomment);
