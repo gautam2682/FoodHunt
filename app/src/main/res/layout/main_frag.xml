@@ -20,13 +20,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
+
         android:id="@+id/linearalayout_main"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="200dp">
-        <com.synnapps.carouselview.CarouselView
+      <!--  <com.synnapps.carouselview.CarouselView
         android:id="@+id/carouselView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -36,6 +37,14 @@
         app:slideInterval="3000"
         app:strokeColor="#FF777777"
         app:strokeWidth="1dp"/>
+            -->
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:id="@+id/recycler_carousel"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+
         </LinearLayout>
 
 

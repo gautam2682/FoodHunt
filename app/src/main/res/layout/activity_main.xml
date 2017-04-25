@@ -44,12 +44,22 @@
             app:borderWidth="0dp"
             app:elevation="6dp"
             app:pressedTranslationZ="12dp"
-            app:srcCompat="@drawable/ic_cart" />
+            app:fabSize="normal"
+            app:srcCompat="@drawable/ic_cart2" />
 
     </android.support.design.widget.CoordinatorLayout>
 
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/activity_main_drawer" />
 
-    <ExpandableListView
+
+    <!--<ExpandableListView
         android:id="@+id/expanablelistView"
         android:layout_width="280dp"
         android:layout_height="match_parent"
@@ -59,6 +69,7 @@
         android:divider="@color/group_divider_color"
         android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
         />
+        -->
 
 </android.support.v4.widget.DrawerLayout>
 

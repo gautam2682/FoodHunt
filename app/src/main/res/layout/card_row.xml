@@ -5,7 +5,8 @@
     android:layout_marginTop="5dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    card_view:cardCornerRadius="5dp"
+    card_view:cardCornerRadius="2dp"
+    card_view:cardElevation="4dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:focusable="true"
@@ -14,30 +15,85 @@
     >
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:paddingTop="-5dp"
+        android:paddingBottom="-5dp"
+        android:paddingRight="5dp"
         android:orientation="vertical">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="130dp"
+            android:layout_gravity="center"
             android:id="@+id/p_image"
             />
-        <TextView
-            android:id="@+id/p_name"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold" />
-        <TextView
-            android:id="@+id/p_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/p_sold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                >
+                <TextView
+                    android:layout_marginTop="-5dp"
+                    android:paddingTop="-10dp"
+                    android:id="@+id/p_name"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    />
+                <ImageView
+                    android:id="@+id/popupdots"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end"
+                    android:clickable="true"
+                    android:src="@drawable/threedots" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/p_rating"
+                        android:gravity="start"
+                        android:text="4.5"
+                        android:textSize="15sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <ImageView
+                        android:id="@+id/stars"
+                        android:layout_gravity="left|center_vertical"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:tint="@color/color5"
+                        android:layout_marginLeft="5dp"
+                        android:src="@drawable/stars" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/p_sold"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

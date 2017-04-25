@@ -2,21 +2,28 @@ package com.example.gautam.foodhunt.Adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.example.gautam.foodhunt.ActProductInfo;
+import com.example.gautam.foodhunt.Constants;
 import com.example.gautam.foodhunt.Modal.User;
 import com.example.gautam.foodhunt.R;
 
 import java.util.ArrayList;
+
+import static com.example.gautam.foodhunt.R.id.btn_post;
 
 /**
  * Created by gautam on 19/12/16.
@@ -60,6 +67,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.user_no.setText(users.get(position).getEmail());
         holder.comment_text.setText(users.get(position).getComment());
+        if(users.get(position).getEmail().equals(holder.pref.getString(Constants.EMAIL," "))){
+          // ActProductInfo.btn_post.setEnabled(false);
+
+        }else {
+            holder.edit_comment.setVisibility(View.INVISIBLE);
+         //   ActProductInfo.btn_post.setEnabled(true);
+        }
 
     }
 
@@ -69,12 +83,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView comment_text,user_no;
+        TextView comment_text,user_no,edit_comment;
+        SharedPreferences pref;
         public ViewHolder(View itemView) {
             super(itemView);
+            pref=itemView.getContext().getSharedPreferences("ABC",Context.MODE_PRIVATE);
             comment_text=(TextView)itemView.findViewById(R.id.comment_text);
             user_no=(TextView)itemView.findViewById(R.id.user_no);
-            itemView.setOnClickListener(this);
+            edit_comment=(TextView)itemView.findViewById(R.id.edit_comment);
+            edit_comment.setOnClickListener(this);
         }
 
         @Override

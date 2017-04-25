@@ -13,6 +13,7 @@
     android:foreground="?android:attr/selectableItemBackground"
     >
     <TextView
+        android:id="@+id/edit_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|center"

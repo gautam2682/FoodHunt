@@ -2,10 +2,13 @@ package com.example.gautam.foodhunt;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,9 +17,12 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.gautam.foodhunt.Adapter.CartAdapter;
 import com.example.gautam.foodhunt.Modal.ProductResponse;
 import com.example.gautam.foodhunt.Modal.ProductVersion;
@@ -30,7 +36,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class Activity_cart extends AppCompatActivity {
     RecyclerView recyclerview;
@@ -38,7 +49,8 @@ public class Activity_cart extends AppCompatActivity {
     ArrayList<ProductVersion> products;
     CartAdapter cartAdapter;
     Toolbar ordertoolbar;  Button btnorder;CoordinatorLayout coordinatorLayout;ArrayList<String> idsA,noiA;
-    SharedPreferences pref;
+    SharedPreferences pref;String table_no;
+    boolean mordercompleted=false,cordercompleted=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,50 +145,152 @@ public class Activity_cart extends AppCompatActivity {
 
     }
 
+    private void AddTableNo() {
+        String[] Tables=new String[]{
+                "Table 1",
+                "Table 2",
+                "Table 3",
+                "Table 4",
+                "Table 5",
+                "Table 6"
+
+        };
+        new AlertDialog.Builder(this)
+                .setSingleChoiceItems(Tables,0,null)
+                .setPositiveButton("Order", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        int selectedpos=((AlertDialog)dialogInterface).getListView().getSelectedItemPosition();
+
+                    }
+                })
+                .show();
+    }
+
     public void ordermycart(final ArrayList<String> ids, final ArrayList<String> nois){
             btnorder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    final ProgressDialog progressDialog=new ProgressDialog(Activity_cart.this);
-                    progressDialog.setMessage("Ordering items");
-                    progressDialog.show();
-                    for (int i = 0; i < idsA.size(); i++) {
-                     Log.d("IDS",idsA.get(i));
-                        Retrofit retrofit = new Retrofit.Builder()
-                                .baseUrl(Constants.base_url)
-                                .addConverterFactory(GsonConverterFactory.create())
-                                .build();
-                        User user = new User();
-                        user.setEmail(pref.getString(Constants.EMAIL," "));
-                        user.setP_id(idsA.get(i));
-                        user.setNoi(noiA.get(i));
-                        final ServerRequest request = new ServerRequest();
-                        request.setOperation(Constants.ordercart);
-                        request.setUser(user);
-                        RequestInterface requestInterface = retrofit.create(RequestInterface.class);
-                        Call<ProductResponse> call = requestInterface.operation(request);
-                        call.enqueue(new Callback<ProductResponse>() {
-                            @Override
-                            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
-                                progressDialog.dismiss();
-                                Snackbar.make(coordinatorLayout, "Order placed ", Snackbar.LENGTH_SHORT).show();
-
-                            }
-
-                            @Override
-                            public void onFailure(Call<ProductResponse> call, Throwable t) {
-                                progressDialog.dismiss();
-                                Snackbar.make(coordinatorLayout, "Connection problem", Snackbar.LENGTH_LONG).show();
-
-                            }
-                        });
+                    AlertDialogTable(view);
 
 
-                    }
                 }
             });
+    }
+
+    private void OrderwithTable(View view, String table_no) {
+        final ProgressDialog progressDialog=new ProgressDialog(Activity_cart.this);
+        progressDialog.setMessage("Ordering items");
+        progressDialog.show();
+        for (int i = 0; i < idsA.size(); i++) {
+            Log.d("IDS",idsA.get(i));
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(Constants.base_url)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .build();
+            User user = new User();
+            user.setEmail(pref.getString(Constants.EMAIL," "));
+            user.setP_id(idsA.get(i));
+            user.setTable_no(table_no);
+            user.setNoi(noiA.get(i));
+            final ServerRequest request = new ServerRequest();
+            request.setOperation(Constants.ordercart);
+            request.setUser(user);
+            RxjavaInterface requestInterface = retrofit.create(RxjavaInterface.class);
+            Observable<ProductResponse>  observable= requestInterface.operation(request);
+            observable.observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.newThread())
+                    .subscribe(new Subscriber<ProductResponse>() {
+                        @Override
+                        public void onCompleted() {
+                            progressDialog.dismiss();
+                            Snackbar.make(coordinatorLayout, "Order placed ", Snackbar.LENGTH_SHORT).show();
+                             makebill();
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            progressDialog.dismiss();
+                            Snackbar.make(coordinatorLayout, "Connection problem", Snackbar.LENGTH_LONG).show();
 
 
+                        }
+
+                        @Override
+                        public void onNext(ProductResponse productResponse) {
+
+                        }
+                    });
+
+
+        }
+
+
+
+
+    }
+
+    private void makebill() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.base_url)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        User user = new User();
+        user.setEmail(pref.getString(Constants.EMAIL," "));
+        user.setTable_no(table_no);
+        final ServerRequest request = new ServerRequest();
+        request.setOperation(Constants.makebill);
+        request.setUser(user);
+        RequestInterface requestInterface = retrofit.create(RequestInterface.class);
+        Call<ProductResponse> call = requestInterface.operation(request);
+        call.enqueue(new Callback<ProductResponse>() {
+            @Override
+            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+                Snackbar.make(coordinatorLayout, "bill is ready ", Snackbar.LENGTH_SHORT).show();
+                makebill();
+
+            }
+
+            @Override
+            public void onFailure(Call<ProductResponse> call, Throwable t) {
+                Snackbar.make(coordinatorLayout, "Connection problem", Snackbar.LENGTH_LONG).show();
+
+            }
+        });
+
+
+    }
+
+    private void AlertDialogTable(final View view) {
+        MaterialDialog materialDialog=new MaterialDialog.Builder(this)
+                .customView(R.layout.prompts_table,false)
+                .positiveText("Submit")
+                .positiveColor(getResources().getColor(R.color.light_blue500))
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        EditText edit=(EditText)dialog.getCustomView().findViewById(R.id.editTextDialogTable);
+                        table_no=edit.getText().toString();
+                        if(!table_no.isEmpty()) {
+                            OrderwithTable(view, table_no);
+                        }else {
+                            Snackbar.make(coordinatorLayout,"Please enter Table number",Snackbar.LENGTH_LONG).show();
+                        }
+                    }
+                })
+                .negativeText("Cancel")
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                    }
+                })
+                .neutralColor(getResources().getColor(R.color.colorPrimaryDark))
+                .title("Enter Table No")
+                .build();
+        materialDialog.show();
     }
 
 

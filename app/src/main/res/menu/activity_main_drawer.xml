@@ -3,50 +3,75 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/app_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Home" />
-        <item
-            android:id="@+id/veg"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Vegetarian" >
+            android:id="@+id/biryani"
+            android:icon="@drawable/biriyani_icon"
+            android:title="BIRYANI SELECTION" >
 
         </item>
         <item
-            android:id="@+id/non_veg"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Non-Veg" />
+            android:id="@+id/kebabs"
+            android:icon="@drawable/debab_icon"
+            android:title="KEBABS" />
         <item
-            android:id="@+id/start_ups"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Start-ups" />
+            android:id="@+id/non_veg_curries"
+            android:icon="@drawable/nonvercurries"
+            android:title="NON VEG CURRIES" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/non_veg_gravies"
+            android:icon="@drawable/nonveggravies"
+            android:title="NON VEG GRAVIES" />
+        <item
+            android:id="@+id/roll_selection"
+            android:icon="@drawable/rollicon"
+            android:title="ROLL SELECTIONS" />
+        <item
+            android:id="@+id/our_specialities"
+            android:icon="@drawable/ourspecial_icon"
+            android:title="OUR SPECIALITIES" />
+        <item
+            android:id="@+id/breads"
+            android:icon="@drawable/bread_icon"
+            android:title="BREADS" />
+
+
+
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
-    <item android:title="Settings" android:id="@+id/setting_parent_item">
+
+
+    <item android:title="AMINIA'S VEG SELECTION" android:id="@+id/setting_parent_item">
         <menu android:id="@+id/setting_menu">
             <group android:checkableBehavior="single" android:id="@+id/setting_group">
                 <item
-                    android:id="@+id/item_log_out"
-                    android:title="Log Out" />
+                    android:id="@+id/biryaniandrice"
+                    android:icon="@drawable/rice_icon"
+                    android:title="BIRYANI AND RICE" />
+                <item
+                    android:id="@+id/kebabs_veg"
+                    android:icon="@drawable/veg_kabab_icon"
+                    android:title="KEBABS" />
+                <item
+                    android:id="@+id/sabzi"
+                    android:icon="@drawable/vegitable_icon"
+                    android:title="SABZI" />
+                <item
+                    android:id="@+id/salad"
+                    android:icon="@drawable/salad_icon"
+                    android:title="SALADS" >
+
+                </item>
+                <item
+                    android:id="@+id/desserts"
+                    android:icon="@drawable/dessets_icon"
+                    android:title="DESSERTS" />
+
+
 
             </group>
         </menu>
     </item>
 
+
+
 </menu>
+

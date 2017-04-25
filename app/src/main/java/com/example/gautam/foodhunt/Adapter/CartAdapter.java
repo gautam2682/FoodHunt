@@ -2,6 +2,7 @@ package com.example.gautam.foodhunt.Adapter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -109,6 +110,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
             }
             private void loadremovejson(int pos, final View view) {
+                SharedPreferences pref=context.getSharedPreferences("ABC",Context.MODE_PRIVATE);
                 listener.onClickremovelist(pos);
                 final Context context=view.getContext();
                 final ProgressDialog pd = new ProgressDialog(context);
@@ -119,7 +121,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
                 User user =new User();
-                user.setEmail("7827789246");
+                user.setEmail(pref.getString(Constants.EMAIL," "));
                 user.setP_id(products.get(pos).getP_id());
                 final ServerRequest request=new ServerRequest();
                 request.setOperation(Constants.removecart);

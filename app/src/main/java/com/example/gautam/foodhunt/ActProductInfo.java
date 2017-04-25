@@ -11,6 +11,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -26,8 +27,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.SnapHelper;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +53,7 @@ import com.example.gautam.foodhunt.Modal.ServerRequest;
 import com.example.gautam.foodhunt.Modal.ServerResponse;
 import com.example.gautam.foodhunt.Modal.User;
 import com.example.gautam.foodhunt.Modal.UserResponse;
+import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -67,13 +71,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.example.gautam.foodhunt.Main_frag.context;
 
 public class ActProductInfo extends AppCompatActivity {
     String p_id;
     TextView A_name,A_description,A_sold; LinearLayout act_product;
     EditText add_comment;
-    Button p_cart,btn_post;
+    Button p_cart;
+     public  Button  btn_post;
     ImageView act_image;
     private ProductVersion product;
     private ArrayList<ProductVersion> products; ArrayList<User> comment,comment2;
@@ -83,6 +87,7 @@ public class ActProductInfo extends AppCompatActivity {
     CollapsingToolbarLayout collapsingToolbarLayout;Palette palette;
     RecyclerView recyclerview;DataAdapter dataAdapter;CommentAdapter commentAdapter;SearchView searchView;
     MaterialDialog progressbar;OkHttpClient client;Context actcontext;
+    PopularAdapter popularAdapter;
     SharedPreferences pref;
 
     @Override
@@ -121,7 +126,7 @@ public class ActProductInfo extends AppCompatActivity {
         act_product=(LinearLayout)findViewById(R.id.content_act_product_info);
         act_product.setVisibility(View.INVISIBLE);
         act_image=(ImageView)findViewById(R.id.act_image);
-         A_name=(TextView)findViewById(R.id.A_name);
+         A_name=(TextView)findViewById(R.id.troops_text);
          A_description=(TextView)findViewById(R.id.A_description);
          A_sold=(TextView)findViewById(R.id.A_sold);
           p_cart=(Button)findViewById(R.id.btncart);
@@ -273,6 +278,11 @@ public class ActProductInfo extends AppCompatActivity {
         int vibrantColor = palette.getVibrantColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
         collapsingToolbarLayout.setContentScrimColor(vibrantColor);
         collapsingToolbarLayout.setStatusBarScrimColor(mutedDarkColor);
+        A_name.setBackgroundColor(vibrantColor);
+        A_name.getBackground().setAlpha(150);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(mutedDarkColor);
+        }
 
     }
 
@@ -293,8 +303,9 @@ public class ActProductInfo extends AppCompatActivity {
                 initRecyclerProducts();
                 ProductResponse productResponse =response.body();
                 products=new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
-                dataAdapter=new DataAdapter(products,getApplicationContext());
-                recyclerview.setAdapter(dataAdapter);
+             //   dataAdapter=new DataAdapter(products,getApplicationContext());
+                popularAdapter=new PopularAdapter(products,getApplicationContext());
+                recyclerview.setAdapter(popularAdapter);
 
 
 
@@ -311,7 +322,10 @@ public class ActProductInfo extends AppCompatActivity {
     private void initRecyclerProducts() {
         recyclerview=(RecyclerView)findViewById(R.id.product_recycler);
         recyclerview.setHasFixedSize(true);
-        GridLayoutManager linearmanager=new GridLayoutManager(this,2);
+        SnapHelper snapHelper = new GravitySnapHelper(Gravity.START);
+        snapHelper.attachToRecyclerView(recyclerview);
+       // GridLayoutManager linearmanager=new GridLayoutManager(this,2);
+        LinearLayoutManager linearmanager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerview.setLayoutManager(linearmanager);
         recyclerview.setItemAnimator(new DefaultItemAnimator());
         recyclerview.setNestedScrollingEnabled(false);
@@ -355,6 +369,11 @@ public class ActProductInfo extends AppCompatActivity {
         } else {
             initRecycler(R.id.comment_recycler);
             comment = new ArrayList<User>(Arrays.asList(productResponse.getUsers()));
+            for(int i=0;i<comment.size();i++){
+                if(comment.get(i).getEmail().equals(pref.getString(Constants.EMAIL," "))){
+                    btn_post.setEnabled(false);
+                }
+            }
             commentAdapter = new CommentAdapter(comment, getApplicationContext(), new CommentAdapter.editcomment() {
                 @Override
                 public void editcommentlistener(int pos, String comm) {
@@ -415,6 +434,7 @@ public class ActProductInfo extends AppCompatActivity {
                     User user = new User();
                     user.setP_id(p_id);
                     user.setComment(add_comment.getText().toString());
+                    user.setCan_comment(1);
                     user.setEmail(pref.getString(Constants.EMAIL," "));
                     final ServerRequest request = new ServerRequest();
                     request.setOperation(Constants.addcomment);

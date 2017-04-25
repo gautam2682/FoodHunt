@@ -10,8 +10,11 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +24,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.gautam.foodhunt.Adapter.Carousel_Adapter;
 import com.example.gautam.foodhunt.Adapter.PopularAdapter;
 import com.example.gautam.foodhunt.Modal.ProductResponse;
 import com.example.gautam.foodhunt.Modal.ProductVersion;
+import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.synnapps.carouselview.CarouselView;
@@ -66,6 +71,7 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
     RecyclerView recyclerview;
     ProgressBar progressbar;
     PopularAdapter popularAdapter;
+    Carousel_Adapter carousel_adapter;
     FrameLayout linearlayot;
     MainActivity mainActivity;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -94,7 +100,7 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
         getActivity().setTitle(getTimeFromAndroid());
         initView(view);
         loadrxjava(view);
-        loadcarousel(view);
+     //   loadcarousel(view);
         return view;
     }
 
@@ -118,7 +124,7 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
 
     }
 
-    private void loadcarousel(View v) {
+ /*   private void loadcarousel(View v) {
 
         carouselView = (CarouselView) v.findViewById(R.id.carouselView);
         carouselView.setPageCount(NUMBER_OF_PAGES);
@@ -136,24 +142,15 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
 
         }
     };
+    */
 
 
-    private void ShowFailsnackbar() {
-        Snackbar.make(linearlayot, "Connection problem", Snackbar.LENGTH_INDEFINITE)
-                .setAction("Retry", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getActivity(), MainActivity.class);
-                        getActivity().finish();
-                        startActivity(intent);
-                    }
-                }).show();
-
-    }
 
     private void initTopView(View view, int id) {
+        SnapHelper snapHelper = new GravitySnapHelper(Gravity.START);
         recyclerview = (RecyclerView) view.findViewById(id);
         recyclerview.setHasFixedSize(true);
+        snapHelper.attachToRecyclerView(recyclerview);
         LinearLayoutManager linearmanager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerview.setLayoutManager(linearmanager);
     }
@@ -220,8 +217,9 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
 
                     @Override
                     public void onNext(ProductResponse productResponse) {
-                        for (int i = 0; i < 3; i++) {
+                        for (int i = 0; i < 4; i++) {
                             if (i == 0) {
+                                initTopView(view, R.id.recycler_popular);
                                 progressbar.setVisibility(View.INVISIBLE);
                                 linearLayout.setVisibility(View.VISIBLE);
                                 products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
@@ -243,9 +241,14 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
                                 products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
                                 popularAdapter = new PopularAdapter(products, getActivity());
                                 recyclerview.setAdapter(popularAdapter);
-
-
                                 Snackbar.make(linearlayot, "items successfully loaded third call", Snackbar.LENGTH_SHORT).show();
+                            }
+                            if(i==3){
+                                initTopView(view, R.id.recycler_carousel);
+                                products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
+                                carousel_adapter = new Carousel_Adapter(products, getActivity());
+                                recyclerview.setAdapter(carousel_adapter);
+
                             }
                         }
                     }

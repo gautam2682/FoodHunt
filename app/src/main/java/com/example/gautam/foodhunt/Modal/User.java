@@ -20,6 +20,24 @@ public class User {
     private  String comment_id;
     private String noi;
     private String category;
+    private String table_no;
+    private int can_comment;
+
+    public int getCan_comment() {
+        return can_comment;
+    }
+
+    public void setCan_comment(int can_comment) {
+        this.can_comment = can_comment;
+    }
+
+    public String getTable_no() {
+        return table_no;
+    }
+
+    public void setTable_no(String table_no) {
+        this.table_no = table_no;
+    }
 
     public String getCategory() {
         return category;

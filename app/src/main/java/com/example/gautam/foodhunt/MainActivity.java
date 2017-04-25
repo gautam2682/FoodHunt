@@ -11,7 +11,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -28,12 +27,10 @@ import com.example.gautam.foodhunt.Adapter.ExpandableListAdapter;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity
-        implements  ExpandableListView.OnChildClickListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     SearchView searchView;
     public CoordinatorLayout coordinatorLayout;
     private DrawerLayout mDrawerLayout;
@@ -61,19 +58,20 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-        initDrawer(toolbar);
+       // initDrawer(toolbar);
 
-      //  DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-      //  ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-        //        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        //drawer.setDrawerListener(toggle);
-        //toggle.syncState();
+       DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
 
-      //  NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        //navigationView.setNavigationItemSelectedListener(this);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
 
         //initialize fragment
-        initMain_frag();
+       initMain_frag();
 
 
     }
@@ -111,7 +109,7 @@ public class MainActivity extends AppCompatActivity
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
-        TapTargetView.showFor(this,                 // `this` is an Activity
+      /*  TapTargetView.showFor(this,                 // `this` is an Activity
                 TapTarget.forView(findViewById(R.id.fab), "This is a your orders", "We have the best targets, believe me")
                         // All options below are optional
                         .outerCircleColor(R.color.green)      // Specify a color for the outer circle
@@ -130,6 +128,7 @@ public class MainActivity extends AppCompatActivity
                         // Specify a custom drawable to draw as the target
                         .targetRadius(60)                  // Specify the target radius (in dp)
         );
+        */
        /* searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -165,83 +164,96 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    /*@SuppressWarnings("StatementWithEmptyBody")
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        Fragment fr;
+
         Bundle bundle=new Bundle();
         switch (id){
-            case R.id.app_home:
-                fr=new Main_frag();
-                FragmentTransaction mainFt=getFragmentManager().beginTransaction();
-                mainFt.replace(R.id.frag_cont,fr);
-                mainFt.commit();
+
+            case R.id.biryani:
+                bundle.putString("cat","Biryani");
+                initiatefrags(bundle);
+
                 break;
-            case R.id.veg:
-                bundle.putString("cat","Veg");
-                fr=new Veg_Frag();
-                fr.setArguments(bundle);
-                FragmentTransaction ft=getFragmentManager().beginTransaction();
-                ft.replace(R.id.frag_cont,fr);
-                ft.addToBackStack(null);
-                ft.commit();
+            case R.id.kebabs:
+                bundle.putString("cat","Kebabs");
+                initiatefrags(bundle);
+
                 break;
-            case R.id.non_veg:
-                bundle.putString("cat","Non-Veg");
-                fr=new Veg_Frag();
-                fr.setArguments(bundle);
-                FragmentTransaction fs=getFragmentManager().beginTransaction();
-                fs.replace(R.id.frag_cont,fr);
-                fs.addToBackStack(null);
-                fs.commit();
+            case R.id.non_veg_curries:
+                bundle.putString("cat","NonVegCurries");
+              initiatefrags(bundle);
                 break;
-            case R.id.start_ups:
-                bundle.putString("cat","Start-ups");
-                fr=new Veg_Frag();
-                fr.setArguments(bundle);
-                FragmentTransaction fq=getFragmentManager().beginTransaction();
-                fq.replace(R.id.frag_cont,fr);
-                fq.addToBackStack(null);
-                fq.commit();
+            case R.id.non_veg_gravies:
+                bundle.putString("cat","NonVegGravies");
+                initiatefrags(bundle);
                 break;
-            case R.id.nav_manage:
+            case R.id.salad:
+                bundle.putString("cat","Salads");
+                initiatefrags(bundle);
                 break;
-            case R.id.nav_send:
+            case R.id.desserts:
+                bundle.putString("cat","Desserts");
+                initiatefrags(bundle);
                 break;
+            case R.id.breads:
+                bundle.putString("cat","Breads");
+                initiatefrags(bundle);
+                break;
+            case R.id.biryaniandrice:
+                bundle.putString("cat","BiryaniAndRice");
+                initiatefrags(bundle);
+                break;
+            case R.id.kebabs_veg:
+                bundle.putString("cat","VegKababs");
+                initiatefrags(bundle);
+                break;
+            case R.id.sabzi:
+                bundle.putString("cat","Sabzi");
+                initiatefrags(bundle);
+                break;
+            case R.id.roll_selection:
+                bundle.putString("cat","Roll");
+                initiatefrags(bundle);
+                break;  case R.id.our_specialities:
+                bundle.putString("cat","Special");
+                initiatefrags(bundle);
+                break;
+
+
+
 
         }
 
-        if (id == R.id.veg) {
 
-        } else if (id == R.id.non_veg) {
-
-        } else if (id == R.id.start_ups) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }*/
+    }
+    public void initiatefrags(Bundle bundle){
+        Fragment fr;
+        fr=new Veg_Frag();
+        fr.setArguments(bundle);
+        FragmentTransaction ft=getFragmentManager().beginTransaction();
+        ft.replace(R.id.frag_cont,fr);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 
     public CoordinatorLayout getCoordinatorlayout(){
         return coordinatorLayout;
 
     }
 
-    private void initDrawer(Toolbar toolbar) {
-        expandableListView = (ExpandableListView) findViewById(R.id.expanablelistView);
+  /*    private void initDrawer(Toolbar toolbar) {
+      expandableListView = (ExpandableListView) findViewById(R.id.expanablelistView);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 ;
 
-        prepareListData();
+     //   prepareListData();
         expandableListAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
         expandableListView.setAdapter(expandableListAdapter);
         LayoutInflater inflater = getLayoutInflater();
@@ -286,13 +298,14 @@ public class MainActivity extends AppCompatActivity
         mDrawerToggle.syncState();
 
     }
+
     private void prepareListData() {
         listDataChild = new HashMap<>();
         listDataHeader = new ArrayList<>();
 
-        listDataHeader.add("Veg");
-        listDataHeader.add("Non-Veg");
-        listDataHeader.add("Comming soon");
+        listDataHeader.add("Vegitarian");
+        listDataHeader.add("Non-Vegitarian");
+        listDataHeader.add("Our Specialities");
 
 
         //adding child data
@@ -334,6 +347,7 @@ public class MainActivity extends AppCompatActivity
 
         return false;
     }
+    */
 
     private void startfragment(String category) {
         Fragment fr;

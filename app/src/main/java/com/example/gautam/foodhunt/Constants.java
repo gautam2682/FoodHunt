@@ -25,4 +25,6 @@ public class Constants {
     public static final String VERIFYOTP_OPERATION="verifyOtp";
     public static final String RESENDOTP_OPERATION="resendOtp";
 
+    public static final String makebill="makebill";
+
 }
