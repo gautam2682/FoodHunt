@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.AppCompatButton;
@@ -44,6 +45,8 @@ public class OtpFragment extends Fragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.fragment_otp,container,false);
         initViews(view);
+        otp.getBackground().mutate().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+
         return view;
     }
 

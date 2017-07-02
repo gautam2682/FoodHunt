@@ -33,25 +33,33 @@
         android:layout_height="wrap_content"
         android:id="@+id/company_name"/>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_marginTop="8dp"
-        android:id="@+id/textInputEmail"
-        android:layout_marginBottom="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white_50"
-        android:textColorHint="@color/white"
-        >
+
         <EditText
+            style="@style/MyEditTextTheme"
             android:hint="Mobile Number"
             android:id="@+id/et_email"
             android:drawableLeft="@drawable/ic_mobile"
             android:inputType="phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColorHint="@color/white_50"
+
             android:textColor="@color/white_50" />
 
-    </android.support.design.widget.TextInputLayout>
+
+
+        <EditText
+            android:hint="Name"
+            style="@style/MyEditTextTheme"
+            android:textColorHint="@color/white_50"
+            android:id="@+id/et_name"
+            android:drawableLeft="@drawable/ic_mobile"
+            android:inputType="textPersonName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white_50" />
+
+
 
 
 

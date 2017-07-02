@@ -13,6 +13,15 @@ public class ProductVersion {
     private boolean isliked;
     private String p_star;
     private String noi;
+    private String comment;
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     public String getNoi() {
         return noi;

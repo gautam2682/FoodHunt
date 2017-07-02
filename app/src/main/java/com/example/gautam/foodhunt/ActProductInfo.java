@@ -1,5 +1,6 @@
 package com.example.gautam.foodhunt;
 
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -80,15 +82,16 @@ public class ActProductInfo extends AppCompatActivity {
      public  Button  btn_post;
     ImageView act_image;
     private ProductVersion product;
-    private ArrayList<ProductVersion> products; ArrayList<User> comment,comment2;
+    private ArrayList<ProductVersion> products=new ArrayList<>(); ArrayList<User> comment,comment2=new ArrayList<>();
     ProgressBar progressBar;
-    RatingBar ratingBar;
+
     CoordinatorLayout coordinatorLayout;
     CollapsingToolbarLayout collapsingToolbarLayout;Palette palette;
     RecyclerView recyclerview;DataAdapter dataAdapter;CommentAdapter commentAdapter;SearchView searchView;
     MaterialDialog progressbar;OkHttpClient client;Context actcontext;
     PopularAdapter popularAdapter;
     SharedPreferences pref;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,16 +116,23 @@ public class ActProductInfo extends AppCompatActivity {
         loadJson();
         loadCommentjson();
         loadProductjson();
-        addComment();
+        loadsubmitcomment();
 
 
+    }
+
+    private void loadsubmitcomment() {
+        RatingFragment fragment;
+        fragment = RatingFragment.newInstace(p_id);;
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_control,fragment);
+        ft.commit();
     }
 
 
     private void initView() {
         pref=getApplicationContext().getSharedPreferences("ABC",Context.MODE_PRIVATE);
          actcontext=getApplicationContext();
-        OkCacheit();
         act_product=(LinearLayout)findViewById(R.id.content_act_product_info);
         act_product.setVisibility(View.INVISIBLE);
         act_image=(ImageView)findViewById(R.id.act_image);
@@ -130,15 +140,12 @@ public class ActProductInfo extends AppCompatActivity {
          A_description=(TextView)findViewById(R.id.A_description);
          A_sold=(TextView)findViewById(R.id.A_sold);
           p_cart=(Button)findViewById(R.id.btncart);
-        ratingBar=(RatingBar)findViewById(R.id.rating_bar);
-        LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
-        ratingBar.setVisibility(View.INVISIBLE);
+
+
         progressBar=(ProgressBar)findViewById(R.id.progress_Spinner_info);
         progressBar.setVisibility(View.VISIBLE);
         coordinatorLayout=(CoordinatorLayout)findViewById(R.id.coordinator_product_info);
-        add_comment=(EditText)findViewById(R.id.addcomment);
-        btn_post=(Button)findViewById(R.id.btn_post);
+
 
         initCollapsingtoolbar();
     }
@@ -157,7 +164,6 @@ public class ActProductInfo extends AppCompatActivity {
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl(Constants.base_url)
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
                 .build();
         User user =new User();
         user.setP_id(p_id);
@@ -172,10 +178,11 @@ public class ActProductInfo extends AppCompatActivity {
                 act_product.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.INVISIBLE);
                 ProductResponse productResponse =response.body();
+
                products=new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
                 A_name.setText(products.get(0).getP_name());
                 A_description.setText(products.get(0).getP_info());
-                A_sold.setText(products.get(0).getP_sold());
+                A_sold.setText(getString(R.string.Rs)+" " +products.get(0).getP_sold());
                 Picasso.with(getApplicationContext()).load(products.get(0).getP_image())
                         .resize(360,300)
                         .into(act_image, new com.squareup.picasso.Callback() {
@@ -194,8 +201,8 @@ public class ActProductInfo extends AppCompatActivity {
 
                     }
                 });
-                ratingBar.setRating(Float.parseFloat(products.get(0).getP_star()));
-                ratingBar.setVisibility(View.VISIBLE);
+               // ratingBar.setRating(Float.parseFloat(products.get(0).getP_star()));
+               // ratingBar.setVisibility(View.VISIBLE);
                 collapsingToolbarLayout.setTitle(products.get(0).getP_name());
 
                 plceCart();
@@ -365,30 +372,44 @@ public class ActProductInfo extends AppCompatActivity {
 
     private void loadcommentresponse(Response<ServerResponse> response) {
         ServerResponse productResponse = response.body();
-        if (productResponse.getResult().equals("Failure")) {
+
+        if (productResponse.getResult()==null) {
         } else {
-            initRecycler(R.id.comment_recycler);
-            comment = new ArrayList<User>(Arrays.asList(productResponse.getUsers()));
-            for(int i=0;i<comment.size();i++){
-                if(comment.get(i).getEmail().equals(pref.getString(Constants.EMAIL," "))){
-                    btn_post.setEnabled(false);
+            if (productResponse.getResult().equals("Failure")) {
+
+            } else {
+                initRecycler(R.id.comment_recycler);
+                comment = new ArrayList<User>(Arrays.asList(productResponse.getUsers()));
+                for (int i = 0; i < comment.size(); i++) {
+                    if (comment.get(i).getEmail().equals(pref.getString(Constants.EMAIL, " "))) {
+
+                        //btn_post.setEnabled(false);
+                  /*  CommentFragment fragment;
+                    fragment = CommentFragment.newInstace(p_id,false,comment.get(i).getComment());;
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.frame_control,fragment);
+                    ft.commit();
+                  */
+                        findViewById(R.id.frame_control).setVisibility(View.GONE);
+
+                    }
                 }
+                commentAdapter = new CommentAdapter(comment, getApplicationContext(), new CommentAdapter.editcomment() {
+                    @Override
+                    public void editcommentlistener(int pos, String comm) {
+                        editComment(pos, comm);
+                    }
+
+                    @Override
+                    public void deletecommentlistener(int pos) {
+                        deleteComment(pos);
+
+                    }
+                });
+                recyclerview.setAdapter(commentAdapter);
+                //  Snackbar.make(coordinatorLayout, "Comment successfully loaded" + p_id, Snackbar.LENGTH_SHORT).show();
+
             }
-            commentAdapter = new CommentAdapter(comment, getApplicationContext(), new CommentAdapter.editcomment() {
-                @Override
-                public void editcommentlistener(int pos, String comm) {
-                    editComment(pos,comm);
-                }
-
-                @Override
-                public void deletecommentlistener(int pos) {
-                    deleteComment(pos);
-
-                }
-            });
-            recyclerview.setAdapter(commentAdapter);
-          //  Snackbar.make(coordinatorLayout, "Comment successfully loaded" + p_id, Snackbar.LENGTH_SHORT).show();
-
         }
     }
 
@@ -416,53 +437,7 @@ public class ActProductInfo extends AppCompatActivity {
 
 
 
-    private void addComment() {
-        btn_post.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (add_comment.getText().toString().isEmpty()) {
-                    Snackbar.make(coordinatorLayout, "Comment cannot be Empty", Snackbar.LENGTH_SHORT).show();
-                } else {
-                    final ProgressDialog progressDialog = new ProgressDialog(ActProductInfo.this);
-                    progressDialog.setMessage("posting your comment");
-                    progressDialog.show();
 
-                    Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl(Constants.base_url)
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .build();
-                    User user = new User();
-                    user.setP_id(p_id);
-                    user.setComment(add_comment.getText().toString());
-                    user.setCan_comment(1);
-                    user.setEmail(pref.getString(Constants.EMAIL," "));
-                    final ServerRequest request = new ServerRequest();
-                    request.setOperation(Constants.addcomment);
-                    request.setUser(user);
-                    UserResInterface requestInterface = retrofit.create(UserResInterface.class);
-                    Call<ServerResponse> response = requestInterface.operation(request);
-                    response.enqueue(new Callback<ServerResponse>() {
-                        @Override
-                        public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                            progressDialog.dismiss();
-                            Snackbar.make(coordinatorLayout, "Successfully added ", Snackbar.LENGTH_SHORT).show();
-                            add_comment.setText("");
-                        loadcommentresponse(response);
-
-                        }
-
-                        @Override
-                        public void onFailure(Call<ServerResponse> call, Throwable t) {
-                            progressDialog.dismiss();
-                            //SnackbarFailed();
-
-                        }
-                    });
-
-                }
-            }
-        });
-    }
 
     public void editComment(int pos,String comm){
             final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -475,7 +450,7 @@ public class ActProductInfo extends AppCompatActivity {
                     .build();
             User user = new User();
             user.setP_id(p_id);
-            user.setComment(add_comment.getText().toString());
+            user.setComment(comm);
             user.setEmail(pref.getString(Constants.EMAIL," "));
             user.setComment_id(comment.get(pos).getComment_id());
             user.setComment(comm);
@@ -513,7 +488,7 @@ public class ActProductInfo extends AppCompatActivity {
                 .build();
         User user = new User();
         user.setP_id(p_id);
-        user.setComment(add_comment.getText().toString());
+        user.setComment("");
         user.setEmail(pref.getString(Constants.EMAIL," "));
         user.setComment_id(comment.get(pos).getComment_id());
         final ServerRequest request = new ServerRequest();
@@ -557,47 +532,7 @@ public class ActProductInfo extends AppCompatActivity {
         return true;
     }
 
-    public void OkCacheit() {
-        int cacheSize = 10 * 1024 * 1024; // 10 MiB
-        Cache cache = null;
-        
-        try {
-            cache = new Cache(getApplication().getCacheDir(), 10 * 1024 * 1024);
 
-        }catch (Exception e){
-            Log.e("Tag",e.toString());
-        }
-
-
-        HttpLoggingInterceptor httpLoggingInterceptor=new HttpLoggingInterceptor();
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        client=new OkHttpClient.Builder()
-                .cache(cache)
-                .addNetworkInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
-                .build();
-
-    }
-    private  final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
-        @Override
-        public okhttp3.Response intercept(Chain chain) throws IOException {
-            okhttp3.Response originalResponse = chain.proceed(chain.request());
-            if (Utils.isNetworkAvailable(getApplicationContext())) {
-                Log.d("Network ava","Network ava");
-                int maxAge = 60; // read from cache for 1 minute
-                return originalResponse.newBuilder()
-                        .header("Cache-Control", "public, max-age=" + maxAge)
-                        .build();
-
-            }else {
-                int maxStale = 60 * 60 * 24 * 28; // tolerate 4-weeks stale
-                Toast.makeText(getApplicationContext(),"Network no",Toast.LENGTH_SHORT).show();
-                return originalResponse.newBuilder()
-                        .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
-                        .build();
-            }
-
-        }
-    };
 
 
 

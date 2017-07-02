@@ -62,8 +62,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
         public void onBindViewHolder(CartAdapter.ViewHolder holder, int position) {
             holder.p_name.setText(products.get(position).getP_name());
             holder.p_info.setText(products.get(position).getP_info());
-            holder.p_sold.setText(products.get(position).getP_sold());
-            Picasso.with(context).load(products.get(position).getP_image()).into(holder.p_image);
+            holder.p_sold.setText(context.getString(R.string.Rs)+" "+ products.get(position).getP_sold());
+            Picasso.with(context).load(products.get(position).getP_image()).fit().centerCrop().into(holder.p_image);
             holder.spinner.setSelection(0);
         }
 

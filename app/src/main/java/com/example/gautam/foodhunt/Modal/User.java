@@ -22,6 +22,15 @@ public class User {
     private String category;
     private String table_no;
     private int can_comment;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getCan_comment() {
         return can_comment;

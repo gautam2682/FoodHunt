@@ -65,8 +65,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.user_no.setText(users.get(position).getEmail());
+      //  holder.user_no.setText(users.get(position).getEmail());
         holder.comment_text.setText(users.get(position).getComment());
+        holder.user_no.setText(users.get(position).getName());
         if(users.get(position).getEmail().equals(holder.pref.getString(Constants.EMAIL," "))){
           // ActProductInfo.btn_post.setEnabled(false);
 

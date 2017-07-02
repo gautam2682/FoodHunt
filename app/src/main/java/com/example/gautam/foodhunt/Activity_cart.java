@@ -51,6 +51,8 @@ public class Activity_cart extends AppCompatActivity {
     Toolbar ordertoolbar;  Button btnorder;CoordinatorLayout coordinatorLayout;ArrayList<String> idsA,noiA;
     SharedPreferences pref;String table_no;
     boolean mordercompleted=false,cordercompleted=false;
+    int count=0;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,11 +181,12 @@ public class Activity_cart extends AppCompatActivity {
     }
 
     private void OrderwithTable(View view, String table_no) {
-        final ProgressDialog progressDialog=new ProgressDialog(Activity_cart.this);
+       progressDialog=new ProgressDialog(Activity_cart.this);
         progressDialog.setMessage("Ordering items");
         progressDialog.show();
         for (int i = 0; i < idsA.size(); i++) {
             Log.d("IDS",idsA.get(i));
+            count++;
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(Constants.base_url)
                     .addConverterFactory(GsonConverterFactory.create())
@@ -204,16 +207,16 @@ public class Activity_cart extends AppCompatActivity {
                     .subscribe(new Subscriber<ProductResponse>() {
                         @Override
                         public void onCompleted() {
-                            progressDialog.dismiss();
-                            Snackbar.make(coordinatorLayout, "Order placed ", Snackbar.LENGTH_SHORT).show();
+                            checkifcompleted();
+
                              makebill();
 
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            progressDialog.dismiss();
-                            Snackbar.make(coordinatorLayout, "Connection problem", Snackbar.LENGTH_LONG).show();
+                            checkiffailed();
+
 
 
                         }
@@ -232,6 +235,27 @@ public class Activity_cart extends AppCompatActivity {
 
     }
 
+    private void checkiffailed() {
+        if(count==idsA.size()){
+            progressDialog.dismiss();
+
+            Snackbar.make(coordinatorLayout, "Connection problem", Snackbar.LENGTH_LONG).show();
+
+        }
+
+    }
+
+    private void checkifcompleted() {
+        if(count==idsA.size()){
+            progressDialog.dismiss();
+            Snackbar.make(coordinatorLayout, "Order placed ", Snackbar.LENGTH_SHORT).show();
+            products.clear();
+            cartAdapter.notifyDataSetChanged();
+            btnorder.setEnabled(false);
+
+        }
+    }
+
     private void makebill() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.base_url)
@@ -248,14 +272,14 @@ public class Activity_cart extends AppCompatActivity {
         call.enqueue(new Callback<ProductResponse>() {
             @Override
             public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
-                Snackbar.make(coordinatorLayout, "bill is ready ", Snackbar.LENGTH_SHORT).show();
-                makebill();
+             //   Snackbar.make(coordinatorLayout, "bill is ready ", Snackbar.LENGTH_SHORT).show();
+            //    makebill();
 
             }
 
             @Override
             public void onFailure(Call<ProductResponse> call, Throwable t) {
-                Snackbar.make(coordinatorLayout, "Connection problem", Snackbar.LENGTH_LONG).show();
+              //  Snackbar.make(coordinatorLayout, "Connection problem", Snackbar.LENGTH_LONG).show();
 
             }
         });

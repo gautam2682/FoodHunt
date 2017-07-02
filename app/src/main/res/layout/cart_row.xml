@@ -19,7 +19,7 @@
         android:orientation="vertical">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="150dp"
             android:id="@+id/p_image"
             />
         <TextView
@@ -32,6 +32,7 @@
             android:textStyle="bold" />
         <TextView
             android:id="@+id/p_info"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <LinearLayout
@@ -43,6 +44,7 @@
             android:id="@+id/p_sold"
             android:layout_weight="1"
             android:layout_width="0dp"
+            android:textSize="20dp"
             android:layout_height="wrap_content" />
         <Spinner
             android:layout_width="wrap_content"

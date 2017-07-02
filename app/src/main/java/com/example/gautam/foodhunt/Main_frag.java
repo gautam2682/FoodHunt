@@ -246,7 +246,15 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
                             if(i==3){
                                 initTopView(view, R.id.recycler_carousel);
                                 products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
-                                carousel_adapter = new Carousel_Adapter(products, getActivity());
+                                carousel_adapter = new Carousel_Adapter(products, getActivity(), new Carousel_Adapter.OnClicklisteners() {
+                                    @Override
+                                    public void onPosClicked(int pos) {
+                                        Intent intent =new Intent(context,ActProductInfo.class);
+                                        intent.putExtra("DATAINTENT",products.get(pos).getP_id());
+                                        context.startActivity(intent);
+
+                                    }
+                                });
                                 recyclerview.setAdapter(carousel_adapter);
 
                             }

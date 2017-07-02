@@ -14,14 +14,9 @@
         android:layout_gravity="center"
         />
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
         <EditText
+            style="@style/MyEditTextTheme"
             android:layout_width="match_parent"
             android:hint="Enter your Otp here "
             android:layout_height="wrap_content"
@@ -31,8 +26,8 @@
             android:textColor="@color/white_50"
             android:layout_marginTop="150dp"
             android:imeOptions="actionDone"
+            android:textColorHint="@color/white_50"
             />
-    </android.support.design.widget.TextInputLayout>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_otp"

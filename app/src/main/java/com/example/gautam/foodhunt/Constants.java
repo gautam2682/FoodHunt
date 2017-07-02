@@ -22,9 +22,13 @@ public class Constants {
     public static final String SUCCESS="success";
     public static final String EMAIL = "email";
 
+
     public static final String VERIFYOTP_OPERATION="verifyOtp";
     public static final String RESENDOTP_OPERATION="resendOtp";
-
     public static final String makebill="makebill";
 
+    public static final String PID = "p_id";
+    public static final String NAME = "Name";
+    public static String visiblity="visibility";
+    public static String comment="comment";
 }

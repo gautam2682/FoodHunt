@@ -1,5 +1,6 @@
 package com.example.gautam.foodhunt.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,6 +20,7 @@ import com.example.gautam.foodhunt.R;
 import com.squareup.picasso.Picasso;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -36,11 +38,14 @@ public class Carousel_Adapter extends RecyclerView.Adapter<Carousel_Adapter.View
 
 
 
-    public Carousel_Adapter(List<ProductVersion> mainModels, Context context) {
+    public Carousel_Adapter(List<ProductVersion> mainModels, Context context,OnClicklisteners listener) {
         this.mainModels = mainModels;
         this.context = context;
+        this.listener=listener;
 
     }
+
+
 
     public interface OnClicklisteners{
         public void onPosClicked(int pos);
@@ -114,6 +119,7 @@ public class Carousel_Adapter extends RecyclerView.Adapter<Carousel_Adapter.View
         @Override
         public void onClick(View view) {
             int pos = getAdapterPosition();
+            listener.onPosClicked(pos);
 
 
         }

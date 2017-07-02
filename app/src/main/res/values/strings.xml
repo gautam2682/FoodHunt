@@ -10,6 +10,7 @@
     <string name="title_activity_cart">Activity_cart</string>
     <string name="searc_foodhunt">Search foodHunt</string>
     <string name="loading">Logging in..</string>
+    <string name="Rs">\u20B9</string>
 
 
 

@@ -20,6 +20,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
+        android:paddingBottom="100dp"
 
         android:id="@+id/linearalayout_main"
         android:layout_height="match_parent">
@@ -54,7 +55,7 @@
         <include layout="@layout/top_main_frag" />
 
         <include layout="@layout/trending_main_frag"/>
-        <include layout="@layout/box_main_frag"/>
+
 
 
     </LinearLayout>

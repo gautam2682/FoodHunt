@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -42,6 +43,7 @@ public class LoginFragment  extends Fragment implements View.OnClickListener{
     private EditText et_email;
     private TextView tv_register,greeting_login,company_name;
     SharedPreferences pref;
+    private EditText et_name;
 
     MaterialDialog.Builder materialDialog; MaterialDialog dialog;
 
@@ -50,10 +52,14 @@ public class LoginFragment  extends Fragment implements View.OnClickListener{
 
         View view = inflater.inflate(R.layout.fragment_login,container,false);
         initViews(view);
+        et_email.getBackground().mutate().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+        et_name.getBackground().mutate().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+
         return view;
     }
 
     private void initViews(View view){
+
         pref=getActivity().getSharedPreferences("ABC", Context.MODE_PRIVATE);
 
 
@@ -61,6 +67,7 @@ public class LoginFragment  extends Fragment implements View.OnClickListener{
         et_email = (EditText)view.findViewById(R.id.et_email);
         greeting_login=(TextView)view.findViewById(R.id.greeting_login);
         company_name=(TextView)view.findViewById(R.id.company_name);
+        et_name=(EditText)view.findViewById(R.id.et_name);
         btn_login.setOnClickListener(this);
 
         String greets=getTimeFromAndroid();
@@ -84,8 +91,13 @@ public class LoginFragment  extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_login:
-                dialog.show();
-                loginclicked(v);
+                if(et_name.getText().toString().isEmpty()){
+                    Toast.makeText(getActivity(),"Please tell us your Name",Toast.LENGTH_SHORT).show();
+
+                }else {
+                    dialog.show();
+                    loginclicked(v);
+                }
                 break;
         }
 
@@ -102,6 +114,7 @@ public class LoginFragment  extends Fragment implements View.OnClickListener{
 
         User user = new User();
         user.setEmail(email);
+        user.setName(et_name.getText().toString());
         ServerRequest request = new ServerRequest();
         request.setOperation(Constants.loginoperation);
         request.setUser(user);
@@ -115,6 +128,8 @@ public class LoginFragment  extends Fragment implements View.OnClickListener{
                 if(resp.getResult().equals(Constants.SUCCESS)){
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString(Constants.EMAIL,email);
+                    editor.putString(Constants.NAME,et_name.getText().toString());
+
                     editor.apply();
                     Toast.makeText(getActivity(), resp.getMessage(), Toast.LENGTH_LONG).show();
                     gotootpfragment();
