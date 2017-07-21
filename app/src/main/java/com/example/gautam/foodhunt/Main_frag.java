@@ -28,6 +28,8 @@ import com.example.gautam.foodhunt.Adapter.Carousel_Adapter;
 import com.example.gautam.foodhunt.Adapter.PopularAdapter;
 import com.example.gautam.foodhunt.Modal.ProductResponse;
 import com.example.gautam.foodhunt.Modal.ProductVersion;
+import com.example.gautam.foodhunt.Modal.ServerRequest;
+import com.example.gautam.foodhunt.Modal.User;
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -198,8 +200,12 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
+        final User user =new User();
+        final ServerRequest request=new ServerRequest();
+        request.setOperation(Constants.gettoprated);
+        request.setUser(user);
         RxjavaInterface rxinterface = retrofit.create(RxjavaInterface.class);
-        Observable<ProductResponse> observable = rxinterface.getProducts();
+        Observable<ProductResponse> observable = rxinterface.operation(request);
         Subscription s1 = observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Subscriber<ProductResponse>() {

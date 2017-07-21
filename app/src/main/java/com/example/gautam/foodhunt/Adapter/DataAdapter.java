@@ -57,6 +57,14 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.p_name.setText(products.get(position).getP_name());
         holder.p_sold.setText(String.format("Rs %s",products.get(position).getP_sold()));
+        if(!products.get(position).getP_star().equals("0")) {
+            holder.p_rating.setText(String.format("%1.2f", Float.valueOf( products.get(position).getP_star())));
+            holder.stars.setVisibility(View.VISIBLE);
+        }else {
+            holder.p_rating.setVisibility(View.INVISIBLE);
+            holder.stars.setVisibility(View.INVISIBLE);
+        }
+
 
         Picasso.with(context).load(products.get(position).getP_image()).resize(250,200).placeholder(R.drawable.gradient_blue).into(holder.p_image);
 
@@ -72,6 +80,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         private TextView p_name, p_sold, p_info;
         private ImageView p_image;
         ImageView p_dots;
+        private TextView p_rating;
+        private ImageView stars;
 
 
         public ViewHolder(View itemView) {
@@ -83,6 +93,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
             p_image=(ImageView)itemView.findViewById(R.id.p_image);
             p_dots=(ImageView)itemView.findViewById(R.id.popupdots);
             p_dots.setOnClickListener(this);
+            p_rating=(TextView)itemView.findViewById(R.id.p_rating);
+            stars=(ImageView)itemView.findViewById(R.id.stars);
 
 
 

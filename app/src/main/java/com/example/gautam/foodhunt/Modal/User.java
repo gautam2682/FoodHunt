@@ -23,6 +23,42 @@ public class User {
     private String table_no;
     private int can_comment;
     private String name;
+    private float rating;
+    private String p_star;
+    private float oldrating;
+    private float orirating;
+
+    public float getOrirating() {
+        return orirating;
+    }
+
+    public void setOrirating(float orirating) {
+        this.orirating = orirating;
+    }
+
+    public float getOldrating() {
+        return oldrating;
+    }
+
+    public void setOldrating(float oldrating) {
+        this.oldrating = oldrating;
+    }
+
+    public String getP_star() {
+        return p_star;
+    }
+
+    public void setP_star(String p_star) {
+        this.p_star = p_star;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
 
     public String getName() {
         return name;

@@ -3,35 +3,65 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/biryani"
-            android:icon="@drawable/biriyani_icon"
-            android:title="BIRYANI SELECTION" >
+            android:id="@+id/homes"
+            android:title="Home" >
 
         </item>
         <item
-            android:id="@+id/kebabs"
-            android:icon="@drawable/debab_icon"
-            android:title="KEBABS" />
+            android:id="@+id/biryani_lucknowi_dum"
+            android:title="Biryani Lucknowi Dum" >
+
+        </item>
         <item
-            android:id="@+id/non_veg_curries"
-            android:icon="@drawable/nonvercurries"
-            android:title="NON VEG CURRIES" />
+            android:id="@+id/rice__pulao"
+            android:title="Rice And Pulao" />
         <item
-            android:id="@+id/non_veg_gravies"
-            android:icon="@drawable/nonveggravies"
-            android:title="NON VEG GRAVIES" />
+            android:id="@+id/main_course_veg"
+            android:title="Main Course Veg" />
         <item
-            android:id="@+id/roll_selection"
-            android:icon="@drawable/rollicon"
-            android:title="ROLL SELECTIONS" />
+            android:id="@+id/dal"
+            android:title="Dal" />
         <item
-            android:id="@+id/our_specialities"
-            android:icon="@drawable/ourspecial_icon"
-            android:title="OUR SPECIALITIES" />
+            android:id="@+id/indian_breds"
+            android:title="Indian Breds" />
         <item
-            android:id="@+id/breads"
-            android:icon="@drawable/bread_icon"
-            android:title="BREADS" />
+            android:id="@+id/tandoori_nonveg"
+            android:title="Tandoori Nonveg" />
+        <item
+            android:id="@+id/tandoori_veg"
+            android:title="Tandoori Veg" />
+        <item
+            android:id="@+id/salad__raita"
+            android:title="Salad And Raita" />
+        <item
+            android:id="@+id/desserts"
+            android:title="Desserts" />
+
+        <item
+            android:id="@+id/special_menu"
+            android:title="Special Menu" />
+        <item
+            android:id="@+id/main_course_nonveg"
+            android:title="Main Course Nonveg" />
+        <item
+            android:id="@+id/rolls__appetizers"
+            android:title="Rolls And Appetizers" />
+        <item
+            android:id="@+id/soup"
+            android:title="Soup" />
+
+        <item
+            android:id="@+id/starters"
+            android:title="Starters" />
+        <item
+            android:id="@+id/rice_and_noodles"
+            android:title="Rice And Noodles" />
+
+        <item
+            android:id="@+id/Chinese_main_course"
+            android:title="Chinese Main Course" />
+
+
 
 
 
@@ -39,37 +69,8 @@
 
 
 
-    <item android:title="AMINIA'S VEG SELECTION" android:id="@+id/setting_parent_item">
-        <menu android:id="@+id/setting_menu">
-            <group android:checkableBehavior="single" android:id="@+id/setting_group">
-                <item
-                    android:id="@+id/biryaniandrice"
-                    android:icon="@drawable/rice_icon"
-                    android:title="BIRYANI AND RICE" />
-                <item
-                    android:id="@+id/kebabs_veg"
-                    android:icon="@drawable/veg_kabab_icon"
-                    android:title="KEBABS" />
-                <item
-                    android:id="@+id/sabzi"
-                    android:icon="@drawable/vegitable_icon"
-                    android:title="SABZI" />
-                <item
-                    android:id="@+id/salad"
-                    android:icon="@drawable/salad_icon"
-                    android:title="SALADS" >
-
-                </item>
-                <item
-                    android:id="@+id/desserts"
-                    android:icon="@drawable/dessets_icon"
-                    android:title="DESSERTS" />
 
 
-
-            </group>
-        </menu>
-    </item>
 
 
 

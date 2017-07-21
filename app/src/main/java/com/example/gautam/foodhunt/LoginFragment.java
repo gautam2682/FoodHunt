@@ -124,7 +124,7 @@ public class LoginFragment  extends Fragment implements View.OnClickListener{
             public void onResponse(Call<ServerResponse> call, retrofit2.Response<ServerResponse> response) {
 
                 ServerResponse resp = response.body();
-                Toast.makeText(getActivity(),resp.getMessage(),Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(),resp.getMessage(),Toast.LENGTH_SHORT).show();
                 if(resp.getResult().equals(Constants.SUCCESS)){
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString(Constants.EMAIL,email);

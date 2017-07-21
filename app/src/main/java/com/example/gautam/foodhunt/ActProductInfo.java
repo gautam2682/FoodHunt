@@ -9,11 +9,13 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -63,10 +65,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import okhttp3.Cache;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -82,15 +81,21 @@ public class ActProductInfo extends AppCompatActivity {
      public  Button  btn_post;
     ImageView act_image;
     private ProductVersion product;
-    private ArrayList<ProductVersion> products=new ArrayList<>(); ArrayList<User> comment,comment2=new ArrayList<>();
+    public ArrayList<ProductVersion> products; ArrayList<User> comment,comment2=new ArrayList<>();
     ProgressBar progressBar;
 
     CoordinatorLayout coordinatorLayout;
     CollapsingToolbarLayout collapsingToolbarLayout;Palette palette;
     RecyclerView recyclerview;DataAdapter dataAdapter;CommentAdapter commentAdapter;SearchView searchView;
-    MaterialDialog progressbar;OkHttpClient client;Context actcontext;
+    MaterialDialog progressbar;Context actcontext;
     PopularAdapter popularAdapter;
     SharedPreferences pref;
+    Button allreviews;
+    private TextView p_rating;
+    private ImageView stars;
+    String productname=" ";
+
+
 
 
     @Override
@@ -108,6 +113,7 @@ public class ActProductInfo extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(getApplicationContext(),Activity_cart.class);
                 startActivity(intent);
+
             }
         });
 
@@ -117,9 +123,24 @@ public class ActProductInfo extends AppCompatActivity {
         loadCommentjson();
         loadProductjson();
         loadsubmitcomment();
+        initeallreviews();
 
 
     }
+
+    private void initeallreviews() {
+        allreviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(ActProductInfo.this,Reviews_Activity.class);
+                intent.putExtra("DATAINTENT",p_id);
+                startActivity(intent);
+               // finish();
+
+            }
+        });
+    }
+
 
     private void loadsubmitcomment() {
         RatingFragment fragment;
@@ -145,6 +166,13 @@ public class ActProductInfo extends AppCompatActivity {
         progressBar=(ProgressBar)findViewById(R.id.progress_Spinner_info);
         progressBar.setVisibility(View.VISIBLE);
         coordinatorLayout=(CoordinatorLayout)findViewById(R.id.coordinator_product_info);
+        allreviews=(Button)findViewById(R.id.all_reviews);
+        Typeface font= Typeface.createFromAsset(getAssets(),"Handlee-Regular.ttf");
+        p_rating=(TextView)findViewById(R.id.p_rating);
+        stars=(ImageView)findViewById(R.id.stars);
+
+
+        A_description.setTypeface(font);
 
 
         initCollapsingtoolbar();
@@ -153,7 +181,26 @@ public class ActProductInfo extends AppCompatActivity {
     private void initCollapsingtoolbar() {
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
       collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
-        getSupportActionBar().setTitle("Add to cart");
+     //   getSupportActionBar().setTitle("Add to cart");
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_product);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = false;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                     collapsingToolbarLayout.setTitle(productname);
+                    isShow = true;
+                } else if (isShow) {
+                    collapsingToolbarLayout.setTitle(" ");//carefull there should a space between double quote otherwise it wont work
+                    isShow = false;
+                }
+            }
+        });
 
 
 
@@ -177,35 +224,45 @@ public class ActProductInfo extends AppCompatActivity {
             public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
                 act_product.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.INVISIBLE);
-                ProductResponse productResponse =response.body();
+                ProductResponse productResponse = response.body();
+                if (productResponse != null) {
 
-               products=new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
-                A_name.setText(products.get(0).getP_name());
-                A_description.setText(products.get(0).getP_info());
-                A_sold.setText(getString(R.string.Rs)+" " +products.get(0).getP_sold());
-                Picasso.with(getApplicationContext()).load(products.get(0).getP_image())
-                        .resize(360,300)
-                        .into(act_image, new com.squareup.picasso.Callback() {
-                    @Override
-                    public void onSuccess() {
-                        Bitmap bitmap = ((BitmapDrawable) act_image.getDrawable()).getBitmap();
-                        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-                            public void onGenerated(Palette palette) {
-                                applyPalette(palette);
-                            }
-                        });
+                    products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
+                    A_name.setText(products.get(0).getP_name());
+                    A_description.setText(products.get(0).getP_info());
+                    productname=products.get(0).getP_name();
+                    A_sold.setText(getString(R.string.Rs) + " " + products.get(0).getP_sold());
+                    Picasso.with(getApplicationContext()).load(products.get(0).getP_image())
+                            .resize(360, 300)
+                            .into(act_image, new com.squareup.picasso.Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    Bitmap bitmap = ((BitmapDrawable) act_image.getDrawable()).getBitmap();
+                                    Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                                        public void onGenerated(Palette palette) {
+                                            applyPalette(palette);
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onError() {
+
+                                }
+                            });
+                    if(!products.get(0).getP_star().equals("0")) {
+                        p_rating.setText(String.format("%1.2f", Float.valueOf( products.get(0).getP_star())));
+                        stars.setVisibility(View.VISIBLE);
+                    }else {
+                        p_rating.setVisibility(View.INVISIBLE);
+                        stars.setVisibility(View.INVISIBLE);
                     }
+                    // ratingBar.setRating(Float.parseFloat(products.get(0).getP_star()));
+                    // ratingBar.setVisibility(View.VISIBLE);
+                    collapsingToolbarLayout.setTitle(products.get(0).getP_name());
 
-                    @Override
-                    public void onError() {
-
-                    }
-                });
-               // ratingBar.setRating(Float.parseFloat(products.get(0).getP_star()));
-               // ratingBar.setVisibility(View.VISIBLE);
-                collapsingToolbarLayout.setTitle(products.get(0).getP_name());
-
-                plceCart();
+                    plceCart();
+                }
             }
 
             @Override
@@ -226,7 +283,7 @@ public class ActProductInfo extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final ProgressDialog progressDialog=new ProgressDialog(ActProductInfo.this);
-                progressDialog.setMessage(products.get(0).getP_name() + " adding to your cart");
+                progressDialog.setMessage(products.get(0).getP_name() + " adding to your Diet");
                 progressDialog.show();
 
                 Retrofit retrofit=new Retrofit.Builder()
@@ -246,7 +303,7 @@ public class ActProductInfo extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
                         progressDialog.dismiss();
-                        Snackbar.make(coordinatorLayout,"Successfully added to cart",Snackbar.LENGTH_INDEFINITE)
+                        Snackbar.make(coordinatorLayout,"Successfully added to Diet",Snackbar.LENGTH_INDEFINITE)
                                 .setAction("CART", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -347,9 +404,10 @@ public class ActProductInfo extends AppCompatActivity {
                 .build();
         final User user =new User();
         user.setP_id(p_id);
+
         user.setEmail(pref.getString(Constants.EMAIL," "));
         final ServerRequest request=new ServerRequest();
-        request.setOperation(Constants.loadcomment);
+        request.setOperation(Constants.loadcommentten);
         request.setUser(user);
         UserResInterface requestInterface=retrofit.create(UserResInterface.class);
         Call<ServerResponse> response=requestInterface.operation(request);
@@ -514,6 +572,8 @@ public class ActProductInfo extends AppCompatActivity {
         });
 
     }
+
+
 
 
 

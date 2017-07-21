@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -61,6 +62,13 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.p_name.setText(products.get(position).getP_name());
         holder.p_sold.setText(String.format("Rs %s",products.get(position).getP_sold()));
+        if(!products.get(position).getP_star().equals("0")) {
+            holder.p_rating.setText(String.format("%1.2f", Float.valueOf( products.get(position).getP_star())));
+            holder.stars.setVisibility(View.VISIBLE);
+        }else {
+            holder.p_rating.setVisibility(View.INVISIBLE);
+            holder.stars.setVisibility(View.INVISIBLE);
+        }
 
         Picasso.with(context).load(products.get(position).getP_image()).resize(250,200).placeholder(R.drawable.gradient_blue).into(holder.p_image);
 
@@ -76,6 +84,8 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
         private TextView p_name, p_sold, p_info;
         private ImageView p_image;
         private ImageView p_dots;
+        private TextView p_rating;
+        private ImageView stars;
 
 
         public ViewHolder(View itemView) {
@@ -86,6 +96,8 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
             p_sold=(TextView)itemView.findViewById(R.id.p_sold);
             p_dots=(ImageView)itemView.findViewById(R.id.popupdots);
             p_dots.setOnClickListener(this);
+            p_rating=(TextView)itemView.findViewById(R.id.p_rating);
+            stars=(ImageView)itemView.findViewById(R.id.stars);
 
 
 

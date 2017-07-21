@@ -13,7 +13,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="You may like"
+            android:gravity="center"
+            android:text="Marufaz \n Dawat-e-Mughlai\n\n Fine Dining| Catering | Take Away\n\n for free home delivary \n 9836004877| 9836004640 \n \n powerred by:- ordercrunch"
             android:layout_gravity="left"
             android:fontFamily="sans-serif-smallcaps"
             android:textStyle="bold"
@@ -27,6 +28,7 @@
         android:layout_width="match_parent"
         android:id="@+id/recycler_trending"
         android:minHeight="150dp"
+        android:visibility="gone"
         android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>
 </LinearLayout>

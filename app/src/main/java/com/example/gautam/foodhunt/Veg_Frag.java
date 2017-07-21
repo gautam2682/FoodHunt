@@ -39,10 +39,12 @@ public class Veg_Frag extends Fragment {
     private ArrayList<ProductVersion> products;
     ProgressBar progressBar; String cate;
     FrameLayout coordinatorLayout;
+    String titlename;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.veg_frag,container,false);
          cate=this.getArguments().getString("cat");
-        getActivity().setTitle(cate);
+        titlename=this.getArguments().getString("name");
+        getActivity().setTitle(titlename);
          initViews(view);
         return view;
     }

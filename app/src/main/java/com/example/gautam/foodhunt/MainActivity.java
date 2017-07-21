@@ -172,55 +172,103 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Bundle bundle=new Bundle();
         switch (id){
 
-            case R.id.biryani:
-                bundle.putString("cat","Biryani");
+            case R.id.biryani_lucknowi_dum:
+                bundle.putString("cat","biryani_lucknowi_dum");
+                bundle.putString("name",item.getTitle().toString());
+                initiatefrags(bundle);
+                break;
+            case R.id.rice__pulao:
+                bundle.putString("cat","rice_&_pulao");
+                bundle.putString("name",item.getTitle().toString());
                 initiatefrags(bundle);
 
                 break;
-            case R.id.kebabs:
-                bundle.putString("cat","Kebabs");
-                initiatefrags(bundle);
-
-                break;
-            case R.id.non_veg_curries:
-                bundle.putString("cat","NonVegCurries");
-              initiatefrags(bundle);
-                break;
-            case R.id.non_veg_gravies:
-                bundle.putString("cat","NonVegGravies");
+            case R.id.main_course_veg:
+                bundle.putString("cat","main_course_veg");
+                bundle.putString("name",item.getTitle().toString());
                 initiatefrags(bundle);
                 break;
-            case R.id.salad:
-                bundle.putString("cat","Salads");
+            case R.id.main_course_nonveg:
+                bundle.putString("cat","main_course_nonveg");
+                bundle.putString("name",item.getTitle().toString());
+                initiatefrags(bundle);
+                break;
+            case R.id.dal:
+                bundle.putString("cat","dal");
+                bundle.putString("name",item.getTitle().toString());
+                initiatefrags(bundle);
+                break;
+            case R.id.indian_breds:
+                bundle.putString("cat","indian_breds");
+                bundle.putString("name",item.getTitle().toString());
+                initiatefrags(bundle);
+                break;
+            case R.id.tandoori_nonveg:
+                bundle.putString("cat","tandoori_nonveg");
+                bundle.putString("name",item.getTitle().toString());
+                initiatefrags(bundle);
+                break;
+            case R.id.tandoori_veg:
+                bundle.putString("cat","tandoori_veg");
+                bundle.putString("name",item.getTitle().toString());
+                initiatefrags(bundle);
+                break;
+            case R.id.salad__raita:
+                bundle.putString("cat","salad_&_raita");
+                bundle.putString("name",item.getTitle().toString());
                 initiatefrags(bundle);
                 break;
             case R.id.desserts:
-                bundle.putString("cat","Desserts");
+                bundle.putString("cat","desserts");
+                bundle.putString("name",item.getTitle().toString());
                 initiatefrags(bundle);
                 break;
-            case R.id.breads:
-                bundle.putString("cat","Breads");
+            case R.id.special_menu:
+                bundle.putString("cat","special_menu");
+                bundle.putString("name",item.getTitle().toString());
                 initiatefrags(bundle);
                 break;
-            case R.id.biryaniandrice:
-                bundle.putString("cat","BiryaniAndRice");
+
+
+            case R.id.rolls__appetizers:
+                bundle.putString("cat","rolls_&_appetizers");
+                bundle.putString("name",item.getTitle().toString());
                 initiatefrags(bundle);
                 break;
-            case R.id.kebabs_veg:
-                bundle.putString("cat","VegKababs");
+
+            case R.id.soup:
+                bundle.putString("cat","soup");
+                bundle.putString("name",item.getTitle().toString());
                 initiatefrags(bundle);
                 break;
-            case R.id.sabzi:
-                bundle.putString("cat","Sabzi");
+
+            case R.id.starters:
+                bundle.putString("cat","starters");
+                bundle.putString("name",item.getTitle().toString());
                 initiatefrags(bundle);
                 break;
-            case R.id.roll_selection:
-                bundle.putString("cat","Roll");
-                initiatefrags(bundle);
-                break;  case R.id.our_specialities:
-                bundle.putString("cat","Special");
+            case R.id.rice_and_noodles:
+                bundle.putString("cat","rice_and_noodles");
+                bundle.putString("name",item.getTitle().toString());
                 initiatefrags(bundle);
                 break;
+            case R.id.Chinese_main_course:
+                bundle.putString("cat","Chinese_main_course");
+                bundle.putString("name",item.getTitle().toString());
+                initiatefrags(bundle);
+                break;
+            case R.id.homes:
+                Fragment fr;
+                fr=new Main_frag();
+                fr.setArguments(bundle);
+                FragmentTransaction ft=getFragmentManager().beginTransaction();
+                ft.replace(R.id.frag_cont,fr);
+                ft.commit();
+                break;
+
+
+
+
 
 
 

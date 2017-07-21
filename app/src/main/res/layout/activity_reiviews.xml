@@ -22,23 +22,38 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_activity_cart" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-   <Button
-       android:layout_gravity="bottom"
-       android:gravity="center"
-       android:id="@+id/order_btn"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:text="Order"
-       android:textAlignment="center"
-       android:textColor="@color/white_50"
-       android:textSize="18dp"
-       android:foregroundGravity="center"
-       android:visibility="gone"
-       android:background="@color/colorAccent"
-       >
-   </Button>
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/content_act_product_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="80dp"
+        >
 
 
-</android.support.design.widget.CoordinatorLayout>
+
+
+
+
+
+
+        <android.support.v7.widget.RecyclerView
+            android:clipToPadding="false"
+            android:paddingTop="0dp"
+            android:layout_width="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:id="@+id/comment_recycler"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:paddingBottom="10dp"
+            />
+
+
+    </LinearLayout>
+
+
+    </android.support.design.widget.CoordinatorLayout>
+

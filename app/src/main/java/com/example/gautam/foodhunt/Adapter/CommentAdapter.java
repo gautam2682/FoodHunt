@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -84,14 +85,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView comment_text,user_no,edit_comment;
+        TextView comment_text,user_no;
+        ImageView edit_comment;
         SharedPreferences pref;
         public ViewHolder(View itemView) {
             super(itemView);
             pref=itemView.getContext().getSharedPreferences("ABC",Context.MODE_PRIVATE);
             comment_text=(TextView)itemView.findViewById(R.id.comment_text);
             user_no=(TextView)itemView.findViewById(R.id.user_no);
-            edit_comment=(TextView)itemView.findViewById(R.id.edit_comment);
+            edit_comment=(ImageView) itemView.findViewById(R.id.edit_comment);
             edit_comment.setOnClickListener(this);
         }
 

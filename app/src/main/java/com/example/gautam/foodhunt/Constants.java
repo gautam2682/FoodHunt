@@ -31,4 +31,9 @@ public class Constants {
     public static final String NAME = "Name";
     public static String visiblity="visibility";
     public static String comment="comment";
+    public static String rateit="rateit";
+    public static String loadrating="loadrating";
+    public static String loadcommentten="loadcommentten";
+    public static String updaterating="updaterating";
+    public static String gettoprated="gettoprated";
 }

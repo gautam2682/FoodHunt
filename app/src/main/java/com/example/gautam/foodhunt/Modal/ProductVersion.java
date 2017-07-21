@@ -8,12 +8,15 @@ public class ProductVersion {
     private String p_id;
     private String p_name;
     private String p_info;
-    private String p_sold;
+    private float p_sold;
     private String p_image;
     private boolean isliked;
     private String p_star;
     private String noi;
     private String comment;
+
+
+
 
     public String getComment() {
         return comment;
@@ -55,11 +58,11 @@ public class ProductVersion {
         this.p_info = p_info;
     }
 
-    public String getP_sold() {
+    public float getP_sold() {
         return p_sold;
     }
 
-    public void setP_sold(String p_sold) {
+    public void setP_sold(float p_sold) {
         this.p_sold = p_sold;
     }
 

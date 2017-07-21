@@ -62,7 +62,7 @@ public class Activity_cart extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Cart");
+        getSupportActionBar().setTitle("Diet");
         initView();
 
 
@@ -131,14 +131,14 @@ public class Activity_cart extends AppCompatActivity {
                 });
                 recyclerview.setAdapter(cartAdapter);
 
-                Toast.makeText(getApplicationContext(),"Cart loaded ",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Diet loaded ",Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
             public void onFailure(Call<ProductResponse> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
-                Snackbar.make(coordinatorLayout,"Cart Failure",Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(coordinatorLayout,"Diet Failure",Snackbar.LENGTH_SHORT).show();
 
 
             }
