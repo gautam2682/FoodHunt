@@ -113,6 +113,7 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
                     break;
                 default:
                     Intent intent =new Intent(context,ActProductInfo.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("DATAINTENT",products.get(pos).getP_id());
                     context.startActivity(intent);
 
