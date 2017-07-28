@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:id="@+id/coordinator_product_info"
-    tools:context="com.example.gautam.foodhunt.ActProductInfo">
+    >
 
 
 

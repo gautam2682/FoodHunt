@@ -4,7 +4,7 @@
     android:id="@+id/activity_search"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.gautam.foodhunt.Activity_search">
+>
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_gravity="center"
