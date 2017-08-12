@@ -15,7 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -84,12 +84,16 @@ public class Activity_search extends AppCompatActivity {
             @Override
             public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
                 progressBar.setVisibility(View.INVISIBLE);
-                ProductResponse productResponse =response.body();
-                products=new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
-                dataAdapter=new DataAdapter(products,getApplicationContext());
-                recyclerview.setAdapter(dataAdapter);
+                if(response.body()!=null){
+                    ProductResponse productResponse = response.body();
+                    products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
+                    dataAdapter = new DataAdapter(products, getApplicationContext());
+                    recyclerview.setAdapter(dataAdapter);
 
-                Snackbar.make(rootview,"Items successfully loaded",Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(rootview, "Items successfully loaded", Snackbar.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getApplicationContext(),"No Items found",Toast.LENGTH_SHORT).show();
+                }
 
             }
 

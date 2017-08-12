@@ -4,61 +4,81 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/homes"
+            android:icon="@drawable/home_ic"
+
             android:title="Home" >
 
         </item>
         <item
             android:id="@+id/biryani_lucknowi_dum"
+            android:icon="@drawable/biriyani_icon"
             android:title="Biryani Lucknowi Dum" >
 
         </item>
         <item
             android:id="@+id/rice__pulao"
+            android:icon="@drawable/rice_icon"
             android:title="Rice And Pulao" />
         <item
             android:id="@+id/main_course_veg"
+            android:icon="@drawable/vegitable_icon"
             android:title="Main Course Veg" />
         <item
             android:id="@+id/dal"
+            android:icon="@drawable/nonvercurries"
             android:title="Dal" />
         <item
             android:id="@+id/indian_breds"
+            android:icon="@drawable/bread_icon"
             android:title="Indian Breds" />
         <item
             android:id="@+id/tandoori_nonveg"
+            android:icon="@drawable/debab_icon"
             android:title="Tandoori Nonveg" />
         <item
             android:id="@+id/tandoori_veg"
+            android:icon="@drawable/nonvercurries"
             android:title="Tandoori Veg" />
         <item
             android:id="@+id/salad__raita"
+            android:icon="@drawable/salad_icon"
             android:title="Salad And Raita" />
         <item
             android:id="@+id/desserts"
+            android:icon="@drawable/dessets_icon"
             android:title="Desserts" />
 
         <item
             android:id="@+id/special_menu"
+            android:icon="@drawable/ourspecial_icon"
             android:title="Special Menu" />
         <item
             android:id="@+id/main_course_nonveg"
+            android:icon="@drawable/vegitable_icon"
             android:title="Main Course Nonveg" />
         <item
             android:id="@+id/rolls__appetizers"
+            android:icon="@drawable/rollicon"
             android:title="Rolls And Appetizers" />
         <item
             android:id="@+id/soup"
+            android:icon="@drawable/rice_icon"
+
             android:title="Soup" />
 
         <item
             android:id="@+id/starters"
+            android:icon="@drawable/bread_icon"
             android:title="Starters" />
         <item
             android:id="@+id/rice_and_noodles"
+            android:icon="@drawable/rice_icon"
             android:title="Rice And Noodles" />
 
         <item
             android:id="@+id/Chinese_main_course"
+            android:icon="@drawable/nonveggravies"
+
             android:title="Chinese Main Course" />
 
 

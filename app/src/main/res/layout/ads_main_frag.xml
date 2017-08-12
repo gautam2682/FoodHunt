@@ -20,6 +20,7 @@
             android:textStyle="bold"
             android:layout_marginLeft="20dp"
             android:textSize="18sp"
+            android:visibility="gone"
             />
 
 
@@ -28,6 +29,7 @@
         android:layout_width="match_parent"
         android:id="@+id/recycler_ads"
         android:minHeight="150dp"
+        android:visibility="gone"
         android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>
 </LinearLayout>

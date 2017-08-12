@@ -5,22 +5,47 @@
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout android:layout_width="match_parent"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         xmlns:android="http://schemas.android.com/apk/res/android">
+
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
-            android:text="Marufaz \n Dawat-e-Mughlai\n\n Fine Dining| Catering | Take Away\n\n for free home delivary \n 9836004877| 9836004640 \n \n powerred by:- ordercrunch"
+            android:text="Marufaz "
             android:layout_gravity="left"
             android:fontFamily="sans-serif-smallcaps"
             android:textStyle="bold"
-            android:layout_marginLeft="20dp"
+            android:textSize="30sp"
+            android:textColor="@color/red500"
+            android:id="@+id/textmarufaz"
+            />
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:text=" Dawat-e-Mughlai\n\n Fine Dining | Catering | Take Away\n\n for free home delivary \n 9836004877 | 9836004640 \n \n powerred by "
+            android:layout_gravity="left"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textStyle="bold"
+            android:id="@+id/textdawat"
             android:textSize="18sp"
             />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="OrderCrunch"
+            android:layout_gravity="left"
+            android:id="@+id/textordercrunch"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:textColor="@color/red500"
+            />
+
 
 
     </LinearLayout>

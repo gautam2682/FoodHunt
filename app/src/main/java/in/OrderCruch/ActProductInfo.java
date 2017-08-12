@@ -238,7 +238,7 @@ public class ActProductInfo extends AppCompatActivity {
                                 }
                             });
                     if(!products.get(0).getP_star().equals("0")) {
-                        p_rating.setText(String.format("%1.2f", Float.valueOf( products.get(0).getP_star())));
+                        p_rating.setText(String.format("%1.1f", Float.valueOf( products.get(0).getP_star())));
                         stars.setVisibility(View.VISIBLE);
                     }else {
                         p_rating.setVisibility(View.INVISIBLE);

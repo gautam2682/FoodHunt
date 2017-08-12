@@ -56,7 +56,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         holder.p_name.setText(products.get(position).getP_name());
         holder.p_sold.setText(String.format("Rs %s",products.get(position).getP_sold()));
         if(!products.get(position).getP_star().equals("0")) {
-            holder.p_rating.setText(String.format("%1.2f", Float.valueOf( products.get(position).getP_star())));
+            holder.p_rating.setText(String.format("%1.1f", Float.valueOf( products.get(position).getP_star())));
             holder.stars.setVisibility(View.VISIBLE);
         }else {
             holder.p_rating.setVisibility(View.INVISIBLE);
@@ -64,7 +64,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         }
 
 
-        Picasso.with(context).load(products.get(position).getP_image()).resize(250,200).placeholder(R.drawable.gradient_blue).into(holder.p_image);
+        Picasso.with(context).load(products.get(position).getP_image()).resize(250,200).into(holder.p_image);
 
 
     }

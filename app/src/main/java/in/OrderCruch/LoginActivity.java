@@ -23,18 +23,15 @@ public class LoginActivity  extends AppCompatActivity{
 
         View backgroundImage = findViewById(R.id.root_view);
 
-        final int[] drawables = new int[11];
-        drawables[0] = R.drawable.gradients_1;
+        final int[] drawables = new int[7];
+        drawables[0] = R.drawable.gradient_1;
         drawables[1] = R.drawable.gradients_2;
         drawables[2] = R.drawable.gradients_3;
         drawables[3] = R.drawable.gradient_4;
         drawables[4] = R.drawable.gradient_5;
         drawables[5] = R.drawable.gradient_6;
         drawables[6] = R.drawable.gradient_7;
-        drawables[7] = R.drawable.gradient_8;
-        drawables[8] = R.drawable.gradient_9;
-        drawables[9] = R.drawable.gradient_10;
-        drawables[10] = R.drawable.gradient_11;
+
 
 
         gradientBackgroundPainter = new GradientBackgroundPainter(backgroundImage, drawables);

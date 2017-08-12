@@ -79,7 +79,7 @@ public class Veg_Frag extends Fragment {
                 products=new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
                 dataAdapter=new DataAdapter(products,getActivity());
                 recyclerview.setAdapter(dataAdapter);
-                Snackbar.make(coordinatorLayout,"Products successfully loaded",Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(coordinatorLayout,"Items successfully loaded",Snackbar.LENGTH_SHORT).show();
 
             }
 

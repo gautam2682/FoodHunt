@@ -6,6 +6,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
@@ -23,6 +24,8 @@ import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -89,7 +92,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+
+            MaterialDialog builder=new MaterialDialog.Builder(this)
+                    .content("Do you want to close the app?")
+                    .positiveText("YES")
+                    .negativeText("NO")
+                    .positiveColor(getResources().getColor(R.color.green))
+                    .negativeColor(getResources().getColor(R.color.grey))
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                            finish();
+
+                        }
+                    })
+                    .build();
+            builder.show();
         }
     }
 
@@ -407,5 +426,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
+
 
 }

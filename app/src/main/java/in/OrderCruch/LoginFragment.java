@@ -125,7 +125,7 @@ public class LoginFragment  extends Fragment implements View.OnClickListener{
                     editor.putString(Constants.NAME,et_name.getText().toString());
 
                     editor.apply();
-                    Toast.makeText(getActivity(), resp.getMessage(), Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getActivity(), resp.getMessage(), Toast.LENGTH_LONG).show();
                     gotootpfragment();
 
                 }
@@ -169,10 +169,8 @@ public class LoginFragment  extends Fragment implements View.OnClickListener{
             greeting = "Good Morning";
         } else if(hours>=12 && hours<=16){
             greeting = "Good Afternoon";
-        } else if(hours>=16 && hours<=21){
+        } else if(hours>=16 && hours<=24){
             greeting = "Good Evening";
-        } else if(hours>=21 && hours<=24){
-            greeting = "Good Night";
         }
         return greeting;
     }

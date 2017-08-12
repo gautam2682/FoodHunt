@@ -31,4 +31,25 @@
     <color name="list_group_title">#808080</color>
     <color name="list_item_title">#AAAAAA</color>
 
+    <color name="orange700">#FF6D00</color>
+    <color name="red500">#F44336</color>
+    <color name="deeporagane_500">#FF5722</color>
+    <color name="Amber800">#FF8F00</color>
+    <color name="orange600">#E64A19</color>
+    <color name="Green500">#4CAF50</color>
+    <color name="lightgreen500">#8BC34A</color>
+    <color name="pink500">#E91E63</color>
+    <color name="purple_500">#9C27B0</color>
+    <color name="blue_500">#2196F3</color>
+    <color name="grey500">#9E9E9E</color>
+    <color name="brown500">#795548</color>
+    <color name="cyan500">#00BCD4</color>
+    <color name="teal500">#009688</color>
+    <color name="lime500">#CDDC39</color>
+    <color name="yellow500">#FFEB3B</color>
+    <color name="indigo500">#3F51B5</color>
+    <color name="launcher_color">#F44336</color>
+    <color name="purple_100">#E1BEE7</color>
+    <color name="grey_700">#616161</color>
+
 </resources>

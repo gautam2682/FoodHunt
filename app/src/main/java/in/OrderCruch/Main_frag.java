@@ -3,6 +3,7 @@ package in.OrderCruch;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
@@ -66,6 +68,8 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
     int[] sampleImages = {R.drawable.burger, R.drawable.fruit};
     String[] sampleTitles = {"Orange", "Grapes", "Strawberry", "Cherry", "Apricot"};
 
+    TextView textmarufaz,textordercrunch,textdwat;
+
     String[] sampleNetworkImageURLs = {
             "http://www.buildupcareer.com/gauti/Hunt/Burger.jpg",
             "http://www.buildupcareer.com/gauti/Hunt/pizza.jpg",
@@ -111,6 +115,18 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
         //  linearlayot.setBackgroundResource(R.drawable.food);
         progressbar = (ProgressBar) v.findViewById(R.id.progress_Spinner);
         recyclerview = (RecyclerView) v.findViewById(R.id.recycler_popular);
+        textdwat=(TextView)v.findViewById(R.id.textdawat);
+        textordercrunch=(TextView)v.findViewById(R.id.textordercrunch);
+        textmarufaz=(TextView)v.findViewById(R.id.textmarufaz);
+        Typeface face = Typeface.createFromAsset(getActivity().getAssets(),
+                "Handlee-Regular.ttf");
+        Typeface face2 = Typeface.createFromAsset(getActivity().getAssets(),
+                "JosefinSans-Regular.ttf");
+
+        textdwat.setTypeface(face);
+        textordercrunch.setTypeface(face2);
+        textmarufaz.setTypeface(face2);
+
         recyclerview.setHasFixedSize(true);
         LinearLayoutManager linearmanager = new LinearLayoutManager(v.getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerview.setLayoutManager(linearmanager);
@@ -225,21 +241,21 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
                                 recyclerview.setAdapter(popularAdapter);
 
 
-                                Snackbar.make(linearlayot, "items successfully loaded", Snackbar.LENGTH_SHORT).show();
+                            //    Snackbar.make(linearlayot, "items successfully loaded", Snackbar.LENGTH_SHORT).show();
                             }
                             if (i == 1) {
                                 initTopView(view, R.id.recycler_top);
                                 products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
                                 popularAdapter = new PopularAdapter(products, getActivity());
                                 recyclerview.setAdapter(popularAdapter);
-                                Snackbar.make(linearlayot, "items successfully loaded again", Snackbar.LENGTH_SHORT).show();
+                             //   Snackbar.make(linearlayot, "items successfully loaded again", Snackbar.LENGTH_SHORT).show();
                             }
                             if (i == 2) {
                                 initTopView(view, R.id.recycler_trending);
                                 products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
                                 popularAdapter = new PopularAdapter(products, getActivity());
                                 recyclerview.setAdapter(popularAdapter);
-                                Snackbar.make(linearlayot, "items successfully loaded third call", Snackbar.LENGTH_SHORT).show();
+                               // Snackbar.make(linearlayot, "items successfully loaded third call", Snackbar.LENGTH_SHORT).show();
                             }
                             if(i==3){
                                 initTopView(view, R.id.recycler_carousel);
@@ -297,6 +313,8 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
             }
         });
         */
+
+
 
 
 }
