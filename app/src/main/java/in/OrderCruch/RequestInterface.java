@@ -13,10 +13,10 @@ import retrofit2.http.POST;
 
 public interface RequestInterface {
 
-    @GET("gauti/")
+    @GET("odercrunch_android/")
     Call<ProductResponse> getProducts();
 
-    @POST("gauti/")
+    @POST("odercrunch_android/")
     Call<ProductResponse> operation(@Body ServerRequest request);
 
 

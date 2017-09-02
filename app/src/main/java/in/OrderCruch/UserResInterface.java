@@ -14,7 +14,7 @@ import retrofit2.http.POST;
 
 public interface UserResInterface {
 
-    @POST("gauti/")
+    @POST("odercrunch_android/")
     Call<ServerResponse> operation(@Body ServerRequest request);
 
 }

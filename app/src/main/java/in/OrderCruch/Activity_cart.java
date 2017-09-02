@@ -53,6 +53,8 @@ public class Activity_cart extends AppCompatActivity {
     boolean mordercompleted=false,cordercompleted=false;
     int count=0;
     ProgressDialog progressDialog;
+    Float totalprice=0.0f;
+    ArrayList<Float> total=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,34 +106,47 @@ public class Activity_cart extends AppCompatActivity {
             public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
                 idsA=new ArrayList<String>();
                 noiA=new ArrayList<String>();
+
                 progressBar.setVisibility(View.INVISIBLE);
                 ProductResponse productResponse =response.body();
                 products=new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
                 for(int i=0;i<products.size();i++){
                     idsA.add(products.get(i).getP_id());
                     noiA.add("1");
+                    total.add(products.get(i).getP_sold());
+
                 }
+                updatePrice();
                 cartAdapter=new CartAdapter(products, getBaseContext(), new CartAdapter.onClickremove() {
                     @Override
                     public void onClickremovelist(int pos) {
                         idsA.remove(pos);
                         noiA.remove(pos);
+                        total.remove(pos);
+                        totalprice= totalprice-(products.get(pos).getP_sold()* Float.parseFloat(noiA.get(pos)));
+                        btnorder.setText("Total:-  Rs."+ String.valueOf(totalprice));
 
                     }
 
                     @Override
                     public void ordercart(ArrayList<String> ids, ArrayList<String> nois) {
-                       ordermycart(ids,nois);
+                   //    ordermycart(ids,nois);
                     }
 
                     @Override
                     public void spinnerchange(int i, String noi) {
                         noiA.add(i,noi);
+                        total.set(i,products.get(i).getP_sold()* Float.parseFloat(noi));
+                        totalprice=0.0f;
+                        updatePrice();
+
+
                     }
                 });
                 recyclerview.setAdapter(cartAdapter);
 
                 Toast.makeText(getApplicationContext(),"Diet loaded ",Toast.LENGTH_SHORT).show();
+
 
             }
 
@@ -144,6 +159,14 @@ public class Activity_cart extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void updatePrice() {
+        for(int i=0;i<total.size();i++) {
+            totalprice += total.get(i);
+        }
+        btnorder.setText("Total:-  Rs."+ String.valueOf(totalprice));
 
     }
 
@@ -173,7 +196,7 @@ public class Activity_cart extends AppCompatActivity {
             btnorder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    AlertDialogTable(view);
+                   // AlertDialogTable(view);
 
 
                 }

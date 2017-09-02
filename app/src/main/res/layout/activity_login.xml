@@ -6,7 +6,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:id="@+id/frame_login"
+        android:id="@+id/fragment_frame"
         android:layout_height="match_parent">
 
     </FrameLayout>

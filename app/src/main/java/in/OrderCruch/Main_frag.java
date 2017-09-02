@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,12 +32,16 @@ import java.util.Date;
 
 
 import in.OrderCruch.Adapter.Carousel_Adapter;
+import in.OrderCruch.Adapter.DataAdapter;
 import in.OrderCruch.Adapter.PopularAdapter;
 import in.OrderCruch.Modal.ProductResponse;
 import in.OrderCruch.Modal.ProductVersion;
 import in.OrderCruch.Modal.ServerRequest;
 import in.OrderCruch.Modal.User;
 import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -60,7 +65,7 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
     FrameLayout linearlayot;
     MainActivity mainActivity;
     SwipeRefreshLayout swipeRefreshLayout;
-    LinearLayout linearLayout;
+    LinearLayout linearLayout;CoordinatorLayout coordtinator;
     OkHttpClient client;
     static Context context;
     CarouselView carouselView;
@@ -86,10 +91,139 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
         mainActivity = new MainActivity();
         getActivity().setTitle(getTimeFromAndroid());
         initView(view);
-        loadrxjava(view);
+        //loadrxjava(view);
+        loadretrofit(view);
      //   loadcarousel(view);
       //  initializerecyclerads(view);
         return view;
+    }
+
+    private void loadretrofit(final View view) {
+
+        //FIRST CALL
+        progressbar.setVisibility(View.VISIBLE);
+        final Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.base_url)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        final User user =new User();
+        final ServerRequest request=new ServerRequest();
+        request.setOperation(Constants.gettoprated);
+        request.setUser(user);
+        RequestInterface requestInterface=retrofit.create(RequestInterface.class);
+        Call<ProductResponse> call =requestInterface.operation(request);
+        call.enqueue(new Callback<ProductResponse>() {
+            @Override
+            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+               // progressbar.setVisibility(View.INVISIBLE);
+                initTopView(view, R.id.recycler_popular);
+                progressbar.setVisibility(View.INVISIBLE);
+                linearLayout.setVisibility(View.VISIBLE);
+                ProductResponse productResponse =response.body();
+                products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
+                popularAdapter = new PopularAdapter(products, getActivity());
+                recyclerview.setAdapter(popularAdapter);
+                //SECOND CALL
+
+
+                final User user =new User();
+                final ServerRequest request=new ServerRequest();
+                request.setOperation(Constants.getspecial);
+                request.setUser(user);
+                RequestInterface requestInterface=retrofit.create(RequestInterface.class);
+                call = requestInterface.operation(request);
+                call.enqueue(new Callback<ProductResponse>() {
+                    @Override
+                    public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+                        // progressbar.setVisibility(View.INVISIBLE);
+                        initTopView(view, R.id.recycler_top);
+                        progressbar.setVisibility(View.INVISIBLE);
+                        linearLayout.setVisibility(View.VISIBLE);
+                        ProductResponse productResponse = response.body();
+                        products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
+                        popularAdapter = new PopularAdapter(products, getActivity());
+                        recyclerview.setAdapter(popularAdapter);
+
+                        //THIRD CALL
+                        thirdcall(view);
+                    }
+
+                    @Override
+                    public void onFailure(Call<ProductResponse> call, Throwable t) {
+                        progressbar.setVisibility(View.INVISIBLE);
+                        Snackbar.make(coordtinator,"Connection problem",Snackbar.LENGTH_INDEFINITE).show();
+
+                    }
+                });
+
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ProductResponse> call, Throwable t) {
+                progressbar.setVisibility(View.INVISIBLE);
+                Snackbar.make(coordtinator,"Connection problem",Snackbar.LENGTH_INDEFINITE).show();
+
+            }
+        });
+
+
+
+
+
+    }
+
+    private void thirdcall(final View view) {
+        progressbar.setVisibility(View.VISIBLE);
+        final Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.base_url)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        final User user =new User();
+        final ServerRequest request=new ServerRequest();
+        request.setOperation(Constants.getcar);
+        request.setUser(user);
+        RequestInterface requestInterface=retrofit.create(RequestInterface.class);
+        Call<ProductResponse> call =requestInterface.operation(request);
+        call.enqueue(new Callback<ProductResponse>() {
+            @Override
+            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+                // progressbar.setVisibility(View.INVISIBLE);
+                initTopView(view, R.id.recycler_carousel);
+                progressbar.setVisibility(View.INVISIBLE);
+                linearLayout.setVisibility(View.VISIBLE);
+                ProductResponse productResponse =response.body();
+                products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
+                carousel_adapter = new Carousel_Adapter(products, getActivity(), new Carousel_Adapter.OnClicklisteners() {
+                    @Override
+                    public void onPosClicked(int pos) {
+                        Intent intent =new Intent(context,ActProductInfo.class);
+                        intent.putExtra("DATAINTENT",products.get(pos).getP_id());
+                        context.startActivity(intent);
+
+                    }
+                });
+                recyclerview.setAdapter(carousel_adapter);
+
+
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ProductResponse> call, Throwable t) {
+                progressbar.setVisibility(View.INVISIBLE);
+                Snackbar.make(coordtinator,"Connection problem",Snackbar.LENGTH_INDEFINITE).show();
+
+            }
+        });
+
+
     }
 
     private void initializerecyclerads(View view) {
@@ -107,7 +241,7 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
         context = getActivity().getApplicationContext();
         linearLayout = (LinearLayout) v.findViewById(R.id.linearalayout_main);
         linearLayout.setVisibility(View.INVISIBLE);
-        linearlayot = (FrameLayout) v.findViewById(R.id.pop_linear);
+      //  linearlayot = (FrameLayout) v.findViewById(R.id.pop_linear);
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.color5, R.color.color1, R.color.color2,
@@ -117,6 +251,7 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
         recyclerview = (RecyclerView) v.findViewById(R.id.recycler_popular);
         textdwat=(TextView)v.findViewById(R.id.textdawat);
         textordercrunch=(TextView)v.findViewById(R.id.textordercrunch);
+        coordtinator=(CoordinatorLayout)v.findViewById(R.id.pop_linear);
         textmarufaz=(TextView)v.findViewById(R.id.textmarufaz);
         Typeface face = Typeface.createFromAsset(getActivity().getAssets(),
                 "Handlee-Regular.ttf");

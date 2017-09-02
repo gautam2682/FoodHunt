@@ -45,5 +45,11 @@
         <item name="colorControlActivated">@color/white_50</item>
         <!-- colorControlActivated & colorControlHighlight use the colorAccent color by default -->
     </style>
+    <style name="TextLabelWhite" parent="TextAppearance.AppCompat">
+        <item name="android:textColorHint">@color/white</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+    </style>
 
 </resources>

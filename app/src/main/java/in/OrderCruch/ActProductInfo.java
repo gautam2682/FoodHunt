@@ -35,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -289,15 +290,16 @@ public class ActProductInfo extends AppCompatActivity {
                 response.enqueue(new Callback<ProductResponse>() {
                     @Override
                     public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
-                        progressDialog.dismiss();
-                        Snackbar.make(coordinatorLayout,"Successfully added to Diet",Snackbar.LENGTH_INDEFINITE)
-                                .setAction("CART", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Intent intent=new Intent(getApplicationContext(),Activity_cart.class);
-                                        startActivity(intent);
-                                    }
-                                }).show();
+                            progressDialog.dismiss();
+                            Snackbar.make(coordinatorLayout, "Successfully added to Diet", Snackbar.LENGTH_INDEFINITE)
+                                    .setAction("CART", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent intent = new Intent(getApplicationContext(), Activity_cart.class);
+                                            startActivity(intent);
+                                        }
+                                    }).show();
+
 
                     }
 

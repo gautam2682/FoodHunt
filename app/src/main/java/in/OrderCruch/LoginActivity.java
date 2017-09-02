@@ -2,6 +2,9 @@ package in.OrderCruch;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,12 +15,16 @@ public class LoginActivity  extends AppCompatActivity{
 
     private Toolbar toolbar;
     private GradientBackgroundPainter gradientBackgroundPainter;
+    private SharedPreferences pref;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        pref=getSharedPreferences("ABC", Context.MODE_PRIVATE);
+
         initFragment();
 
 
@@ -46,14 +53,20 @@ public class LoginActivity  extends AppCompatActivity{
 
 
     private void initFragment(){
-        goToLogin();
+        if(pref.getBoolean(Constants.IS_LOGGED_IN,false)) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        }else {
+            goToLogin();
+        }
 
     }
     public void goToLogin()
+
     {   Fragment fragment;
         fragment = new LoginFragment();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.frame_login,fragment);
+        ft.replace(R.id.fragment_frame,fragment);
         ft.commit();
     }
 

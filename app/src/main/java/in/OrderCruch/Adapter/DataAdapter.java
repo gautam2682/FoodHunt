@@ -56,6 +56,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         holder.p_name.setText(products.get(position).getP_name());
         holder.p_sold.setText(String.format("Rs %s",products.get(position).getP_sold()));
         if(!products.get(position).getP_star().equals("0")) {
+            holder.p_rating.setVisibility(View.VISIBLE);
             holder.p_rating.setText(String.format("%1.1f", Float.valueOf( products.get(position).getP_star())));
             holder.stars.setVisibility(View.VISIBLE);
         }else {

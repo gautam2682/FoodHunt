@@ -5,7 +5,7 @@ package in.OrderCruch;
  */
 
 public class Constants {
-    public static final String base_url="http://buildupcareer.com/";
+    public static final String base_url="http://www.aniketvishal.com";
     public static final String getproductdetail="getproductdetail";
     public static final String addtocart="addtocart";
     public static final String showcart="showcart";
@@ -36,4 +36,40 @@ public class Constants {
     public static String loadcommentten="loadcommentten";
     public static String updaterating="updaterating";
     public static String gettoprated="gettoprated";
+
+
+
+    public static final String REGISTER_OPERATION = "register";
+    public static final String LOGIN_OPERATION = "login";
+    public static final String CHANGE_PASSWORD_OPERATION = "chgPass";
+    public static final String REDEEM_OPERATION="redeem";
+
+    public static final String UPDATE_OPERATION="updateProfile";
+    public static final String TRANSFER_POINTS="transferpts";
+    public static final String UPDATEPTS="updatepts";
+    public static final String getfromPid="getfromPid";
+    public static final String getsubproducts="getsubproducts";
+
+    public static final String cartnoi="cartnoi";
+
+
+
+
+
+    public static final String FAILURE = "failure";
+    public static final String IS_LOGGED_IN = "isLoggedIn";
+
+
+    public static final String UNIQUE_ID = "unique_id";
+    public static final String WALLET = "money";
+    public static final String DOB = "dob";
+    public static final String PLACE = "place";
+
+    public static final String TAG = "ABILYTICS";
+    public static final String RESET_PASSWORD_INITIATE = "forget";
+    public static final String RESET_PASSWORD_FINISH = "checkOtpPassword";
+
+
+    public static String getspecial="getspecial";
+    public static String getcar="getcar";
 }

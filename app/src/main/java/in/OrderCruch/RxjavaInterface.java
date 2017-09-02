@@ -13,10 +13,10 @@ import rx.Observable;
 
 public interface RxjavaInterface {
 
-    @POST("gauti/")
+    @POST("odercrunch_android/")
     Observable<ProductResponse> operation(@Body ServerRequest request);
 
 
-    @GET("gauti/")
+    @GET("odercrunch_android/")
     Observable<ProductResponse> getProducts();
 }

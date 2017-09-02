@@ -30,12 +30,10 @@
        android:id="@+id/order_btn"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:text="Order"
        android:textAlignment="center"
        android:textColor="@color/white_50"
        android:textSize="18dp"
        android:foregroundGravity="center"
-       android:visibility="gone"
        android:background="@color/colorAccent"
        >
    </Button>
