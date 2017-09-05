@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
@@ -40,12 +41,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     HashMap<String, List<String>> listDataChild;
     ActionBarDrawerToggle mDrawerToggle;
     LinearLayout navHeader;
+    String resturant;
+    String slider;
+    String popular;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+       resturant= getIntent().getStringExtra(Constants.RESTURANT);
+        slider=getIntent().getStringExtra(Constants.MARUFAZ_SLID);
+        popular=getIntent().getStringExtra(Constants.MARUFAZ_CAR);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         coordinatorLayout=(CoordinatorLayout)findViewById(R.id.coordinator_main);
@@ -81,6 +89,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void initMain_frag() {
         Fragment fr=new Main_frag();
+        Bundle bundle=new Bundle();
+        bundle.putString(Constants.RESTURANT,resturant);
+        bundle.putString(Constants.MARUFAZ_CAR,popular);
+        bundle.putString(Constants.MARUFAZ_SLID,slider);
+        fr.setArguments(bundle);
         FragmentTransaction ft=getFragmentManager().beginTransaction();
         ft.replace(R.id.frag_cont,fr);
         ft.commit();
@@ -93,22 +106,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
         } else {
 
-            MaterialDialog builder=new MaterialDialog.Builder(this)
-                    .content("Do you want to close the app?")
-                    .positiveText("YES")
-                    .negativeText("NO")
-                    .positiveColor(getResources().getColor(R.color.green))
-                    .negativeColor(getResources().getColor(R.color.grey))
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-
-                            finish();
-
-                        }
-                    })
-                    .build();
-            builder.show();
+         super.onBackPressed();
         }
     }
 
@@ -173,11 +171,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            Intent intent=new Intent(this,LoginActivity.class);
-            startActivity(intent);
-            finish();
-            return true;
+            if(id==R.id.log_out){
+             SharedPreferences   pref=getSharedPreferences("ABC", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putBoolean(Constants.IS_LOGGED_IN,false);
+                editor.putString(Constants.EMAIL,"");
+                editor.putString(Constants.NAME,"");
+                editor.putString(Constants.UNIQUE_ID,"");
+                editor.apply();
+                Intent intent=new Intent(this,LoginActivity.class);
+                startActivity(intent);
+                finish();
+
         }
 
         return super.onOptionsItemSelected(item);

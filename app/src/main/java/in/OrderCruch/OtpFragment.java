@@ -126,7 +126,7 @@ public class OtpFragment extends Fragment implements View.OnClickListener {
     }
 
     private void goToMainActivity() {
-        Intent intent=new Intent(getActivity(),MainActivity.class);
+        Intent intent=new Intent(getActivity(),Resturantchooser_Activity.class);
         startActivity(intent);
         getActivity().finish();
     }

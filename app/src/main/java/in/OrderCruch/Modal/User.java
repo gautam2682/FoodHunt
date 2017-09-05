@@ -27,6 +27,15 @@ public class User {
     private String p_star;
     private float oldrating;
     private float orirating;
+    private String resturant;
+
+    public String getResturant() {
+        return resturant;
+    }
+
+    public void setResturant(String resturant) {
+        this.resturant = resturant;
+    }
 
     public float getOrirating() {
         return orirating;

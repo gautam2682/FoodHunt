@@ -40,13 +40,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHolder> {
     private ArrayList<ProductVersion> products;
     Context context;
-
-    public PopularAdapter(ArrayList<ProductVersion> products, Context context) {
+    Onclicklistnerpopular listener;
+    public PopularAdapter(ArrayList<ProductVersion> products, Context context,Onclicklistnerpopular listener) {
 
         this.products = products;
         this.context = context;
+        this.listener=listener;
+
     }
 
+    public interface Onclicklistnerpopular{
+        public void Onclikpos();
+    }
 
     @Override
     public PopularAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -107,6 +112,7 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
         public void onClick(View view) {
             int pos = getAdapterPosition();
             // Toast.makeText(view.getContext(),products.get(pos).getP_name(),Toast.LENGTH_SHORT).show();
+            listener.Onclikpos();
             switch (view.getId()){
                 case R.id.popupdots:
                     inflatepopup(view,pos);

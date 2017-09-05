@@ -54,7 +54,7 @@ public class LoginActivity  extends AppCompatActivity{
 
     private void initFragment(){
         if(pref.getBoolean(Constants.IS_LOGGED_IN,false)) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(), Resturantchooser_Activity.class);
             startActivity(intent);
         }else {
             goToLogin();

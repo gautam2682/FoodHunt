@@ -29,6 +29,9 @@ public class Constants {
 
     public static final String PID = "p_id";
     public static final String NAME = "Name";
+    public static final String RESTURANT = "Resturant";
+    public static final String MARUFAZ_SLID = "marufaz_slid";
+    public static final String MARUFAZ_CAR = "marufaz_car";
     public static String visiblity="visibility";
     public static String comment="comment";
     public static String rateit="rateit";

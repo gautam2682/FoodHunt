@@ -96,6 +96,7 @@ public class Activity_cart extends AppCompatActivity {
         User user =new User();
         user.setEmail(pref.getString(Constants.EMAIL," "));
 
+
         final ServerRequest request=new ServerRequest();
         request.setOperation(Constants.showcart);
         request.setUser(user);

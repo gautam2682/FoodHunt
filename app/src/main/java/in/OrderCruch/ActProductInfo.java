@@ -82,6 +82,7 @@ public class ActProductInfo extends AppCompatActivity {
     private TextView p_rating;
     private ImageView stars;
     String productname=" ";
+    String resturant;
 
 
 
@@ -95,6 +96,7 @@ public class ActProductInfo extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         p_id=getIntent().getStringExtra("DATAINTENT");
+        resturant=getIntent().getStringExtra(Constants.RESTURANT);
         Button gotoorderbtn=(Button)findViewById(R.id.btngorder);
         gotoorderbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,6 +203,7 @@ public class ActProductInfo extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         User user =new User();
+        user.setResturant(resturant);
         user.setP_id(p_id);
         final ServerRequest request=new ServerRequest();
         request.setOperation(Constants.getproductdetail);
@@ -282,6 +285,7 @@ public class ActProductInfo extends AppCompatActivity {
                 user.setP_id(p_id);
                  user.setEmail(pref.getString(Constants.EMAIL,""));
                 user.setNoi("1");
+                user.setResturant(resturant);
                 final ServerRequest request=new ServerRequest();
                 request.setOperation(Constants.addtocart);
                 request.setUser(user);
@@ -357,7 +361,12 @@ public class ActProductInfo extends AppCompatActivity {
                 ProductResponse productResponse =response.body();
                 products=new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
              //   dataAdapter=new DataAdapter(products,getApplicationContext());
-                popularAdapter=new PopularAdapter(products,getApplicationContext());
+                popularAdapter=new PopularAdapter(products, getApplicationContext(), new PopularAdapter.Onclicklistnerpopular() {
+                    @Override
+                    public void Onclikpos() {
+
+                    }
+                });
                 recyclerview.setAdapter(popularAdapter);
 
 

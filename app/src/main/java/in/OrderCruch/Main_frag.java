@@ -74,6 +74,9 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
     String[] sampleTitles = {"Orange", "Grapes", "Strawberry", "Cherry", "Apricot"};
 
     TextView textmarufaz,textordercrunch,textdwat;
+    String resturant;
+    String slider;
+    String popular;
 
     String[] sampleNetworkImageURLs = {
             "http://www.buildupcareer.com/gauti/Hunt/Burger.jpg",
@@ -91,6 +94,9 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
         mainActivity = new MainActivity();
         getActivity().setTitle(getTimeFromAndroid());
         initView(view);
+        resturant=getArguments().getString(Constants.RESTURANT);
+        slider=getArguments().getString(Constants.MARUFAZ_SLID);
+        popular=getArguments().getString(Constants.MARUFAZ_CAR);
         //loadrxjava(view);
         loadretrofit(view);
      //   loadcarousel(view);
@@ -107,6 +113,7 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         final User user =new User();
+        user.setResturant(resturant);
         final ServerRequest request=new ServerRequest();
         request.setOperation(Constants.gettoprated);
         request.setUser(user);
@@ -121,12 +128,18 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
                 linearLayout.setVisibility(View.VISIBLE);
                 ProductResponse productResponse =response.body();
                 products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
-                popularAdapter = new PopularAdapter(products, getActivity());
+                popularAdapter = new PopularAdapter(products, getActivity(), new PopularAdapter.Onclicklistnerpopular() {
+                    @Override
+                    public void Onclikpos() {
+                    }
+                });
                 recyclerview.setAdapter(popularAdapter);
                 //SECOND CALL
 
 
                 final User user =new User();
+                user.setResturant(resturant);
+                user.setCategory(popular);
                 final ServerRequest request=new ServerRequest();
                 request.setOperation(Constants.getspecial);
                 request.setUser(user);
@@ -141,7 +154,12 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
                         linearLayout.setVisibility(View.VISIBLE);
                         ProductResponse productResponse = response.body();
                         products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
-                        popularAdapter = new PopularAdapter(products, getActivity());
+                        popularAdapter = new PopularAdapter(products, getActivity(), new PopularAdapter.Onclicklistnerpopular() {
+                            @Override
+                            public void Onclikpos() {
+
+                            }
+                        });
                         recyclerview.setAdapter(popularAdapter);
 
                         //THIRD CALL
@@ -183,6 +201,8 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         final User user =new User();
+        user.setCategory(popular);
+        user.setResturant(resturant);
         final ServerRequest request=new ServerRequest();
         request.setOperation(Constants.getcar);
         request.setUser(user);
@@ -190,7 +210,7 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
         Call<ProductResponse> call =requestInterface.operation(request);
         call.enqueue(new Callback<ProductResponse>() {
             @Override
-            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+            public void onResponse(Call<ProductResponse> call, final Response<ProductResponse> response) {
                 // progressbar.setVisibility(View.INVISIBLE);
                 initTopView(view, R.id.recycler_carousel);
                 progressbar.setVisibility(View.INVISIBLE);
@@ -201,6 +221,7 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
                     @Override
                     public void onPosClicked(int pos) {
                         Intent intent =new Intent(context,ActProductInfo.class);
+                        intent.putExtra(Constants.RESTURANT,resturant);
                         intent.putExtra("DATAINTENT",products.get(pos).getP_id());
                         context.startActivity(intent);
 
@@ -226,15 +247,7 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
 
     }
 
-    private void initializerecyclerads(View view) {
-        initTopView(view, R.id.recycler_popular);
-        progressbar.setVisibility(View.INVISIBLE);
-        linearLayout.setVisibility(View.VISIBLE);
 
-        popularAdapter = new PopularAdapter(products, getActivity());
-        recyclerview.setAdapter(popularAdapter);
-
-    }
 
 
     private void initView(View v) {
@@ -372,7 +385,12 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
                                 progressbar.setVisibility(View.INVISIBLE);
                                 linearLayout.setVisibility(View.VISIBLE);
                                 products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
-                                popularAdapter = new PopularAdapter(products, getActivity());
+                                popularAdapter = new PopularAdapter(products, getActivity(), new PopularAdapter.Onclicklistnerpopular() {
+                                    @Override
+                                    public void Onclikpos() {
+
+                                    }
+                                });
                                 recyclerview.setAdapter(popularAdapter);
 
 
@@ -381,14 +399,24 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
                             if (i == 1) {
                                 initTopView(view, R.id.recycler_top);
                                 products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
-                                popularAdapter = new PopularAdapter(products, getActivity());
+                                popularAdapter = new PopularAdapter(products, getActivity(), new PopularAdapter.Onclicklistnerpopular() {
+                                    @Override
+                                    public void Onclikpos() {
+
+                                    }
+                                });
                                 recyclerview.setAdapter(popularAdapter);
                              //   Snackbar.make(linearlayot, "items successfully loaded again", Snackbar.LENGTH_SHORT).show();
                             }
                             if (i == 2) {
                                 initTopView(view, R.id.recycler_trending);
                                 products = new ArrayList<ProductVersion>(Arrays.asList(productResponse.getProducts()));
-                                popularAdapter = new PopularAdapter(products, getActivity());
+                                popularAdapter = new PopularAdapter(products, getActivity(), new PopularAdapter.Onclicklistnerpopular() {
+                                    @Override
+                                    public void Onclikpos() {
+
+                                    }
+                                });
                                 recyclerview.setAdapter(popularAdapter);
                                // Snackbar.make(linearlayot, "items successfully loaded third call", Snackbar.LENGTH_SHORT).show();
                             }
@@ -399,6 +427,7 @@ public class Main_frag extends Fragment implements View.OnClickListener,SwipeRef
                                     @Override
                                     public void onPosClicked(int pos) {
                                         Intent intent =new Intent(context,ActProductInfo.class);
+                                        intent.putExtra(Constants.RESTURANT,resturant);
                                         intent.putExtra("DATAINTENT",products.get(pos).getP_id());
                                         context.startActivity(intent);
 

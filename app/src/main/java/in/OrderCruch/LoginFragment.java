@@ -189,7 +189,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     }
     private void goToProfile(){
 
-        Intent intent=new Intent(getActivity(),MainActivity.class);
+        Intent intent=new Intent(getActivity(),Resturantchooser_Activity.class);
         startActivity(intent);
         this.getActivity().finish();
     }
